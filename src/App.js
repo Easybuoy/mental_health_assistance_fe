@@ -5,7 +5,7 @@ import logger from 'redux-logger';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import rootReducer from './reducers';
-import './App.css';
+import './App.scss';
 import Login from './pages/Login/Login';
 import Home from './pages/Home/Home';
 import PrivateRoute from './modules/PrivateRoute/PrivateRoute';

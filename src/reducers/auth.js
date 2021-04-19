@@ -4,7 +4,7 @@ const INITIAL_STATE = {
   isAuthenticated: false
 };
 
-export default (state = INITIAL_STATE, action) => {
+const state = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case LOGIN:
       return {
@@ -16,3 +16,5 @@ export default (state = INITIAL_STATE, action) => {
       return state;
   }
 };
+
+export default state;
