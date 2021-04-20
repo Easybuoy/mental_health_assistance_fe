@@ -12,6 +12,8 @@ import { extendLocale } from './utils/locale';
 import localePhrases from './config/locales/en.json';
 import { setCurrentUser, signOut } from './actions/auth';
 import setAuthToken from './utils/setAuthToken';
+import Navigation from './modules/Navigation/Navigation';
+import Footer from './modules/Footer/Footer';
 
 extendLocale(localePhrases);
 
@@ -38,9 +40,11 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <Router>
+        <Navigation />
         <Switch>
           <App />
         </Switch>
+        <Footer />
       </Router>
     </Provider>
   </React.StrictMode>,
