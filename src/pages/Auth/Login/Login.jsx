@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../../actions/auth';
 import Input from '../../../modules/Common/Input/Input';
+import Button from '../../../modules/Common/Button/Button';
 import './Login.scss';
 
 const Login = ({ history }) => {
@@ -27,7 +28,7 @@ const Login = ({ history }) => {
       <div className="login-container">
         <Input type="email" placeholder="Email" />
         <Input type="password" placeholder="Password" />
-        <button onClick={submit}>Submit</button>
+        <Button onClick={submit}>Submit</Button>
       </div>
     </div>
   );

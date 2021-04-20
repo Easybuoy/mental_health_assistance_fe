@@ -1,9 +1,6 @@
 @import './assets/styles/variables.scss';
 @import './assets/styles/general.scss';
 
-:root {
-  --input-border: #8b8a8b;
-  --input-focus-h: 245;
-  --input-focus-s: 100%;
-  --input-focus-l: 42%;
+body {
+  font-family: $primary-font;
 }
