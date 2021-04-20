@@ -1,26 +1,51 @@
-import axios from "axios";
+import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 
-import { LOGIN } from "./types";
-import { setError } from "./error";
+import setAuthToken from '../utils/setAuthToken';
+import { LOGIN, SIGN_OUT, SET_CURRENT_USER } from './types';
+// import { setError } from './error';
 
-export const loginUser = (username, password) => dispatch => {
+export const loginUser = (email, password) => (dispatch) => {
+  console.log('fired');
   const payload = {
-    username,
-    password
+    email,
+    password,
   };
-  axios
-    .post("http://localhost:5000/api/login", payload)
-    .then(res => {
-      const { payload } = res.data;
-      localStorage.setItem("token", payload);
-      dispatch(login(payload));
+  return axios
+    .post('/api/auth/login', payload)
+    .then((res) => {
+      const { data } = res.data;
+      setAuthToken(data.token);
+      localStorage.setItem('token', data.token)
+      const decodedToken = jwt_decode(data.token);
+      dispatch(setCurrentUser(decodedToken));
+      return decodedToken;
     })
-    .catch(() => dispatch(setError("Username or Password Incorrect.")));
+    .catch((error) => {
+      throw error.response.data.message;
+    });
 };
 
-export const login = payload => {
+export const login = (payload) => {
   return {
     type: LOGIN,
-    payload
+    payload,
+  };
+};
+
+export const signOut = (payload) => {
+  // Remove token from localstorage
+  localStorage.removeItem('token');
+
+  return {
+    type: SIGN_OUT,
+    payload,
+  };
+};
+
+export const setCurrentUser = (decoded) => {
+  return {
+    type: SET_CURRENT_USER,
+    payload: decoded,
   };
 };

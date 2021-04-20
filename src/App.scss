@@ -1,5 +1,9 @@
-$brand-primary: #c54644;
+@import './assets/styles/variables.scss';
+@import './assets/styles/general.scss';
 
-// Gray scale
-$black: #3d3935;
-$white: #fff;
+:root {
+  --input-border: #8b8a8b;
+  --input-focus-h: 245;
+  --input-focus-s: 100%;
+  --input-focus-l: 42%;
+}
