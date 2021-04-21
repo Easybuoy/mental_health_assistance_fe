@@ -22,7 +22,7 @@ const Login = ({ history }) => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      history.push('/');
+      history.push(PATHS.HOME);
     }
   }, [isAuthenticated, history]);
 

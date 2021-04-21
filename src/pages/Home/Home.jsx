@@ -16,7 +16,7 @@ const Home = () => {
 
   return (
     <div>
-      <div>{tl8('title')}</div>
+      {/* <div>{tl8('title')}</div> */}
     </div>
   );
 };

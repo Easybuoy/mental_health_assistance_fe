@@ -7,8 +7,12 @@
       "password": "Password",
       "login": "Login",
       "sign_up": "Sign up",
+      "full_name": "Full name",
+      "phone": "Phone",
+      "terms": "Privacy and terms",
       "bottom": {
-        "dont_have_account": "Don't have an account?"
+        "dont_have_account": "Don't have an account?",
+        "already_have_account": "Already have an account?"
       }
     }
 }

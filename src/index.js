@@ -19,8 +19,9 @@ import { ConnectivityListener } from './modules/Common/Connection/ConnectivityLi
 
 extendLocale(localePhrases);
 
-if (localStorage.token && localStorage.token !== undefined) {
+if (localStorage.token && localStorage.token !== 'undefined') {
   const { token } = localStorage;
+
   // Set Auth TOken
   setAuthToken(token);
 
