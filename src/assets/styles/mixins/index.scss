@@ -10,10 +10,10 @@
   text-align: center;
   font-family: $secondary-font;
   cursor: pointer;
-  margin: $spacing-4;
+  margin: $spacing-4 0;
   transition: all 0.2s ease-in-out;
 
-  &:hover {
+  &:hover:enabled {
     color: $backgroundColor;
     background-color: $textColor;
     box-shadow: $box-shadow;

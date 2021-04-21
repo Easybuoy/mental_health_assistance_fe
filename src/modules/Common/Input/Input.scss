@@ -3,13 +3,13 @@
 .input {
   padding: $spacing-8;
   border-radius: $border-radius;
-  margin: $spacing-4;
+  margin: $spacing-4 0 ;
   font-size: $font-size-small;
   background-color: #fff;
   border: 2px solid #8b8a8b;
   transition: 180ms box-shadow ease-in-out;
   font-family: $primary-font;
-
+  box-sizing: border-box;
   &:focus {
     border-color: $brand-primary;
     box-shadow: 0 0 0 3px rgba(170, 50, 48 ,0.2);

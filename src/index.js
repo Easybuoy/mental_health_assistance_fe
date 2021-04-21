@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
+import { ToastProvider } from 'react-toast-notifications';
 
 import store from './store';
 import './index.css';
@@ -14,6 +15,7 @@ import { setCurrentUser, signOut } from './actions/auth';
 import setAuthToken from './utils/setAuthToken';
 import Navigation from './modules/Navigation/Navigation';
 import Footer from './modules/Footer/Footer';
+import { ConnectivityListener } from './modules/Common/Connection/ConnectivityListener';
 
 extendLocale(localePhrases);
 
@@ -40,11 +42,19 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <Router>
-        <Navigation />
-        <Switch>
-          <App />
-        </Switch>
-        <Footer />
+        <ToastProvider
+          autoDismiss
+          autoDismissTimeout={3000}
+          // components={{ Toast: Snack }}
+          // placement="bottom-center"
+        >
+          <ConnectivityListener />
+          <Navigation />
+          <Switch>
+            <App />
+          </Switch>
+          <Footer />
+        </ToastProvider>
       </Router>
     </Provider>
   </React.StrictMode>,
