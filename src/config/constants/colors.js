@@ -1,4 +1,5 @@
-export default {
+const colors = {
   BRAND_PRIMARY: '#aa3230',
-  WHITE: '#fff'
+  WHITE: '#fff',
 };
+export default colors;

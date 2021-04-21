@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useToasts } from 'react-toast-notifications';
 
@@ -7,6 +7,8 @@ import Input from '../../../modules/Common/Input/Input';
 import Button from '../../../modules/Common/Button/Button';
 import './Login.scss';
 import Loader from '../../../modules/Common/Loader/Loader';
+import { tl8 } from '../../../utils/locale';
+
 const Login = ({ history }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -15,42 +17,43 @@ const Login = ({ history }) => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const { addToast } = useToasts();
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      history.push('/');
+    }
+  }, [isAuthenticated, history]);
+
   const submit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    console.log(email, password);
+
     try {
       await dispatch(loginUser(email, password));
     } catch (error) {
-      console.log(error, 'err');
       addToast(error, { appearance: 'error' });
     }
     setIsLoading(false);
   };
-
-  if (isAuthenticated) {
-    history.push('/');
-  }
 
   return (
     <div className="container login-page">
       <form className="login-container" onSubmit={submit}>
         <Input
           type="email"
-          placeholder="Email"
+          placeholder={tl8('auth.email')}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
         <Input
           type="password"
-          placeholder="Password"
+          placeholder={tl8('auth.password')}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
 
-        <Button disabled={isLoading}>{isLoading ? <Loader /> : 'Login'}</Button>
+        <Button disabled={isLoading}>{isLoading ? <Loader /> : tl8('auth.login')}</Button>
       </form>
     </div>
   );
