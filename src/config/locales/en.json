@@ -5,6 +5,10 @@
     "auth": {
       "email": "Email",
       "password": "Password",
-      "login": "Login"
+      "login": "Login",
+      "sign_up": "Sign up",
+      "bottom": {
+        "dont_have_account": "Don't have an account?"
+      }
     }
 }

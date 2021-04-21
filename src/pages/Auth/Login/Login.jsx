@@ -5,10 +5,12 @@ import { useToasts } from 'react-toast-notifications';
 import { loginUser } from '../../../actions/auth';
 import Input from '../../../modules/Common/Input/Input';
 import Button from '../../../modules/Common/Button/Button';
-import './Login.scss';
 import Loader from '../../../modules/Common/Loader/Loader';
 import { tl8 } from '../../../utils/locale';
+import PATHS from '../../../config/constants/paths';
 import AuthLayout from '../../../containers/AuthLayout/AuthLayout';
+import AuthBottom from '../../../modules/Auth/AuthBottom';
+import './Login.scss';
 
 const Login = ({ history }) => {
   const [email, setEmail] = useState('');
@@ -39,26 +41,34 @@ const Login = ({ history }) => {
   return (
     <div className="container login-page">
       <AuthLayout>
-        <form className="login-container" onSubmit={submit}>
-          <Input
-            type="email"
-            placeholder={tl8('auth.email')}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <Input
-            type="password"
-            placeholder={tl8('auth.password')}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+        <div className="login-container">
+          <form onSubmit={submit}>
+            <Input
+              type="email"
+              placeholder={tl8('auth.email')}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <Input
+              type="password"
+              placeholder={tl8('auth.password')}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
 
-          <Button disabled={isLoading}>
-            {isLoading ? <Loader /> : tl8('auth.login')}
-          </Button>
-        </form>
+            <Button disabled={isLoading || (!email && !password)}>
+              {isLoading ? <Loader /> : tl8('auth.login')}
+            </Button>
+          </form>
+
+          <AuthBottom
+            text={tl8('auth.bottom.dont_have_account')}
+            linkText={tl8('auth.sign_up')}
+            path={PATHS.REGISTER}
+          />
+        </div>
       </AuthLayout>
     </div>
   );

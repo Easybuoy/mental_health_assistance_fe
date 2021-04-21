@@ -1,0 +1,18 @@
+@import '../../assets/styles/variables.scss';
+
+.auth-bottom {
+  margin-top: $spacing-16;
+  span {
+    color: $white;
+    font-family: $secondary-font;
+
+    a {
+      margin-left: $spacing-4;
+      color: $gray;
+
+      &:hover {
+        color: $white;
+      }
+    }
+  }
+}

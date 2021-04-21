@@ -4,3 +4,13 @@
 body {
   font-family: $primary-font;
 }
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

@@ -11,12 +11,7 @@
     height: 100%;
     width: 500px;
     width: 100%;
-    border-top-left-radius: $border-radius;
-    border-bottom-left-radius: $border-radius;
-    border-top-right-radius: $border-radius;
-    border-bottom-right-radius: $border-radius;
     background-color: $brand-primary;
-    box-shadow: $box-shadow-two;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
@@ -28,11 +23,13 @@
       rgba(255, 255, 255, 0.5) 100%
     );
 
-    @media screen and (min-width: $screen-md-min) {
-      border-top-right-radius: $border-radius;
-      border-bottom-right-radius: $border-radius;
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
     }
 
     .input {
@@ -43,5 +40,7 @@
     .btn {
       width: 50%;
     }
+
+    
   }
 }
