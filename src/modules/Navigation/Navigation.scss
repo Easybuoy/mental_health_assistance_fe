@@ -8,8 +8,9 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: $spacing-40;
+  margin-bottom: $spacing-48;
   box-shadow: $box-shadow;
+  max-width: 1440px;
 
   .logo,
   .nav-links {
@@ -17,12 +18,10 @@
   }
 
   .nav-links {
-      display: flex;
+    display: flex;
 
-      .links {
-          margin: 0 $spacing-8;
-      }
+    .links {
+      margin: 0 $spacing-8;
+    }
   }
-
-
 }

@@ -8,6 +8,7 @@ import Button from '../../../modules/Common/Button/Button';
 import './Login.scss';
 import Loader from '../../../modules/Common/Loader/Loader';
 import { tl8 } from '../../../utils/locale';
+import AuthLayout from '../../../containers/AuthLayout/AuthLayout';
 
 const Login = ({ history }) => {
   const [email, setEmail] = useState('');
@@ -37,24 +38,28 @@ const Login = ({ history }) => {
 
   return (
     <div className="container login-page">
-      <form className="login-container" onSubmit={submit}>
-        <Input
-          type="email"
-          placeholder={tl8('auth.email')}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <Input
-          type="password"
-          placeholder={tl8('auth.password')}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+      <AuthLayout>
+        <form className="login-container" onSubmit={submit}>
+          <Input
+            type="email"
+            placeholder={tl8('auth.email')}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <Input
+            type="password"
+            placeholder={tl8('auth.password')}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
 
-        <Button disabled={isLoading}>{isLoading ? <Loader /> : tl8('auth.login')}</Button>
-      </form>
+          <Button disabled={isLoading}>
+            {isLoading ? <Loader /> : tl8('auth.login')}
+          </Button>
+        </form>
+      </AuthLayout>
     </div>
   );
 };
