@@ -13,6 +13,7 @@ export const SocketProvider = ({ id, children }) => {
   useEffect(() => {
     const newSocket = io('https://mental-health-assistance.herokuapp.com/', {
       query: { id },
+      transports: ['websocket', 'polling', 'flashsocket']
     });
     setSocket(newSocket);
 
