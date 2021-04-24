@@ -1,11 +1,11 @@
-import { LOGIN, SET_CURRENT_USER, SIGN_OUT } from '../actions/types';
+import { LOGIN, SET_CURRENT_USER, SIGN_OUT } from '../../actions/types';
 
 const INITIAL_STATE = {
   isAuthenticated: false,
   user: {},
 };
 
-const state = (state = INITIAL_STATE, action) => {
+const authReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case LOGIN:
       return {
@@ -29,4 +29,4 @@ const state = (state = INITIAL_STATE, action) => {
   }
 };
 
-export default state;
+export default authReducer;

@@ -8,8 +8,9 @@ import Button from '../../../modules/Common/Button/Button';
 import Loader from '../../../modules/Common/Loader/Loader';
 import { tl8 } from '../../../utils/locale';
 import PATHS from '../../../config/constants/paths';
-import AuthLayout from '../../../containers/AuthLayout/AuthLayout';
+import AuthLayout from '../../../layout/AuthLayout/AuthLayout';
 import AuthBottom from '../../../modules/Auth/AuthBottom';
+import { getIsAuthenticated } from '../../../store/selectors/auth'
 import './Login.scss';
 
 const Login = ({ history }) => {
@@ -17,7 +18,7 @@ const Login = ({ history }) => {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const isAuthenticated = useSelector(getIsAuthenticated);
   const { addToast } = useToasts();
 
   useEffect(() => {

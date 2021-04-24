@@ -1,13 +1,14 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { signOut } from '../../actions/auth';
+import { getIsAuthenticated } from '../../store/selectors/auth';
 
 import './Navigation.scss';
 import Button from '../Common/Button/Button';
 
 const Navigation = () => {
   const dispatch = useDispatch();
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const isAuthenticated = useSelector(getIsAuthenticated);
 
   const onSignOutClick = () => {
     dispatch(signOut());

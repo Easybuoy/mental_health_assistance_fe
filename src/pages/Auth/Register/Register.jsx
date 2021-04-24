@@ -8,7 +8,7 @@ import Button from '../../../modules/Common/Button/Button';
 import Loader from '../../../modules/Common/Loader/Loader';
 import { tl8 } from '../../../utils/locale';
 import PATHS from '../../../config/constants/paths';
-import AuthLayout from '../../../containers/AuthLayout/AuthLayout';
+import AuthLayout from '../../../layout/AuthLayout/AuthLayout';
 import AuthBottom from '../../../modules/Auth/AuthBottom';
 import './Register.scss';
 import { Link } from 'react-router-dom';
