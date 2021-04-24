@@ -11,7 +11,7 @@ export const SocketProvider = ({ id, children }) => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const newSocket = io('/', {
+    const newSocket = io('https://mental-health-assistance.herokuapp.com/', {
       query: { id },
     });
     setSocket(newSocket);
