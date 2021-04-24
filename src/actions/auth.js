@@ -11,7 +11,7 @@ export const loginUser = (email, password) => (dispatch) => {
     password,
   };
   return axios
-    .post('https://mental-health-assistance.herokuapp.com/api/auth/login', payload)
+    .post('/api/auth/login', payload)
     .then((res) => {
       const { data } = res.data;
       setAuthToken(data.token);
