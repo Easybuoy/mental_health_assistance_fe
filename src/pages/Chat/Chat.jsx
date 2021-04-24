@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 import { useParams } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
@@ -10,18 +10,23 @@ import { useSocket } from '../../context/SocketProvider';
 import Loader from '../../modules/Common/Loader/Loader';
 import Input from '../../modules/Common/Input/Input';
 import Button from '../../modules/Common/Button/Button';
+import { setMessages, setMessage, setRecepientName } from '../../actions/chat';
+import { getMessages, getRecepientName } from '../../store/selectors/chat';
 import './Chat.scss';
 
-const Chat = ({ route }) => {
-  const messageEndElement = useRef();
+const Chat = () => {
   const params = useParams();
+  const { recepientId } = params;
+  const messageEndElement = useRef();
+  const dispatch = useDispatch();
   const { addToast } = useToasts();
-  const [messages, setMessages] = useState([]);
-  const [message, setMessage] = useState('');
+  const messages = useSelector(getMessages);
+  const recepientName = useSelector(getRecepientName);
+
+  const [newMessage, setNewMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const userId = useSelector(getUserId);
   const socket = useSocket();
-  const { recepientId } = params;
 
   const scrollToBottom = () => {
     messageEndElement.current?.scrollIntoView({ behavior: 'smooth' });
@@ -31,12 +36,19 @@ const Chat = ({ route }) => {
     setIsLoading(true);
     if (!socket) return;
 
+    socket.emit('get messages', recepientId);
+    socket.emit('get user name', recepientId);
+
     socket.on('messages', (messages) => {
-      setMessages(messages);
+      dispatch(setMessages(messages));
+    });
+
+    socket.on('user mame', (name) => {
+      dispatch(setRecepientName(name));
     });
 
     socket.on('message', (message) => {
-      receiveMessage(message);
+      dispatch(setMessage(message));
     });
     setIsLoading(false);
 
@@ -52,14 +64,10 @@ const Chat = ({ route }) => {
     }
   }, [messages]);
 
-  const receiveMessage = (message) => {
-    setMessages((oldMsg) => [...oldMsg, message]);
-  };
-
   const sendMessage = (e) => {
     e.preventDefault();
 
-    if (!message) {
+    if (!newMessage) {
       addToast('Type a message in the text area to send a message', {
         appearance: 'info',
       });
@@ -67,18 +75,20 @@ const Chat = ({ route }) => {
     }
 
     const messageObject = {
-      message: message,
+      message: newMessage,
       senderId: userId,
       recepientId,
     };
-    setMessage('');
+    setNewMessage('');
     socket.emit('send message', messageObject);
+    dispatch(setMessage(messageObject));
   };
 
   if (isLoading) return <Loader size={25} thickness={250} className="loader" />;
 
   return (
     <div className="container chat">
+      <h3 className="name text-center">{recepientName}</h3>
       <div className="chat-container">
         <div className="chat-list">
           {messages.map((message, i) => (
@@ -104,8 +114,8 @@ const Chat = ({ route }) => {
         </div>
         <form className="new-message" onSubmit={sendMessage}>
           <Input
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
             placeholder="Enter message"
           />
           <Button>→</Button>
