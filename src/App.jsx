@@ -19,6 +19,7 @@ function App() {
       <Route exact path={PATHS.LOGIN} component={Login} />
       <Route exact path={PATHS.REGISTER} component={Register} />
       <PrivateRoute exact path={PATHS.HOME} component={Home} />
+      {/* <PrivateRoute exact path={PATHS.CHATS} component={Chat} /> */}
       <PrivateRoute exact path={PATHS.CHAT} component={Chat} />
       {/* <Route path="*" component={NotFound} /> */}
     </SocketProvider>

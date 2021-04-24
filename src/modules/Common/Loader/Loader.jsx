@@ -3,16 +3,24 @@ import { SpinnerCircular } from 'spinners-react';
 
 import COLORS from '../../../config/constants/colors';
 
-const Loader = () => {
+const Loader = ({ size, thickness, className }) => {
   return (
-    <SpinnerCircular
-      size={15}
-      thickness={200}
-      speed={100}
-      color={COLORS.BRAND_PRIMARY}
-      secondaryColor={COLORS.WHITE}
-    />
+    <div className={className}>
+      <SpinnerCircular
+        size={size}
+        thickness={thickness}
+        speed={100}
+        color={COLORS.BRAND_PRIMARY}
+        secondaryColor={COLORS.WHITE}
+      />
+    </div>
   );
+};
+
+Loader.defaultProps = {
+  size: 15,
+  thickness: 200,
+  className: '',
 };
 
 export default Loader;

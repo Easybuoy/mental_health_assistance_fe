@@ -3,7 +3,8 @@ const PATHS = {
     REGISTER: '/register',
     LOGIN: '/login',
     TERMS: '/terms',
-    CHAT: '/chat',
+    CHATS: '/chats',
+    CHAT: '/chat/:recepientId',
   };
   export default PATHS;
   
