@@ -5,6 +5,7 @@ const PATHS = {
     TERMS: '/terms',
     CHATS: '/chats',
     CHAT: '/chat/:recepientId',
+    CALL: '/call/:recepientId',
   };
   export default PATHS;
   

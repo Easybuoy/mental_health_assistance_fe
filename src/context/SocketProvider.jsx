@@ -1,8 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react';
+import configVariables from '../config/env';
 import io from 'socket.io-client';
 
 const SocketContext = React.createContext();
-
+const { API_BASE_URI } = configVariables;
 export const useSocket = () => {
   return useContext(SocketContext);
 };
@@ -11,7 +12,7 @@ export const SocketProvider = ({ id, children }) => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const newSocket = io('https://mental-health-assistance.herokuapp.com/', {
+    const newSocket = io(API_BASE_URI, {
       query: { id },
       transports: ['websocket', 'polling', 'flashsocket']
     });

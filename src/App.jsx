@@ -8,6 +8,7 @@ import Home from './pages/Home/Home';
 import PATHS from './config/constants/paths'
 import PrivateRoute from './modules/PrivateRoute/PrivateRoute';
 import Chat from './pages/Chat/Chat';
+import Call from './pages/Call/Call';
 import { getUserId } from './store/selectors/auth';
 import { SocketProvider } from './context/SocketProvider';
 
@@ -21,6 +22,7 @@ function App() {
       <PrivateRoute exact path={PATHS.HOME} component={Home} />
       {/* <PrivateRoute exact path={PATHS.CHATS} component={Chat} /> */}
       <PrivateRoute exact path={PATHS.CHAT} component={Chat} />
+      <PrivateRoute exact path={PATHS.CALL} component={Call} />
       {/* <Route path="*" component={NotFound} /> */}
     </SocketProvider>
   );

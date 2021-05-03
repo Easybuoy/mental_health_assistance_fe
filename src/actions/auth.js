@@ -2,8 +2,11 @@ import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 
 import setAuthToken from '../utils/setAuthToken';
+import configVariables from '../config/env';
 import { LOGIN, SIGN_OUT, SET_CURRENT_USER } from './types';
 // import { setError } from './error';
+
+const { API_BASE_URI } = configVariables;
 
 export const loginUser = (email, password) => (dispatch) => {
   const payload = {
@@ -11,7 +14,7 @@ export const loginUser = (email, password) => (dispatch) => {
     password,
   };
   return axios
-    .post('https://mental-health-assistance.herokuapp.com/api/auth/login', payload)
+    .post(`${API_BASE_URI}/api/auth/login`, payload)
     .then((res) => {
       const { data } = res.data;
       setAuthToken(data.token);
@@ -27,7 +30,7 @@ export const loginUser = (email, password) => (dispatch) => {
 
 export const registerUser = (payload) => (dispatch) => {
   return axios
-    .post('/api/auth/register', payload)
+    .post(`${API_BASE_URI}/api/auth/register`, payload)
     .then((res) => {
       const { data } = res.data;
        console.log(data, '--')

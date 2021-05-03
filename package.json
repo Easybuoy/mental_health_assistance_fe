@@ -7,6 +7,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
+    "dotenv": "^8.2.0",
     "jwt-decode": "^3.1.2",
     "moment": "^2.29.1",
     "node-polyglot": "^2.4.0",
@@ -20,6 +21,7 @@
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
+    "simple-peer": "^9.11.0",
     "socket.io-client": "^4.0.1",
     "spinners-react": "^1.0.4",
     "web-vitals": "^1.0.1"
@@ -30,7 +32,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-
   "eslintConfig": {
     "extends": [
       "react-app",

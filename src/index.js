@@ -16,6 +16,8 @@ import setAuthToken from './utils/setAuthToken';
 import Navigation from './modules/Navigation/Navigation';
 import Footer from './modules/Footer/Footer';
 import { ConnectivityListener } from './modules/Common/Connection/ConnectivityListener';
+import AcceptCall from './modules/Common/AcceptCall/AcceptCall';
+
 extendLocale(localePhrases);
 
 if (localStorage.token && localStorage.token !== 'undefined') {
@@ -49,6 +51,7 @@ ReactDOM.render(
           // placement="bottom-center"
         >
           <ConnectivityListener />
+          <AcceptCall />
           <Navigation />
           <Switch>
             <App />
