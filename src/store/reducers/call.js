@@ -4,6 +4,7 @@ import {
   RESET_CALL_DATA,
   SET_CALL_RECEIVING,
   SET_INITIAL_CALL_ACCEPT,
+  DECLINE_CALL,
 } from '../../actions/types';
 
 const INITIAL_STATE = {
@@ -12,6 +13,7 @@ const INITIAL_STATE = {
   callerSignal: {},
   callAccepted: false,
   initialCallAccept: false,
+  callDeclined: false,
 };
 
 const callReducer = (state = INITIAL_STATE, action) => {
@@ -33,6 +35,11 @@ const callReducer = (state = INITIAL_STATE, action) => {
         receivingCall: true,
         caller: action.payload.from,
         callerSignal: action.payload.signal,
+      };
+    case DECLINE_CALL:
+      return {
+        ...state,
+        callDeclined: true,
       };
     case SET_ACCEPT_CALL:
       return {

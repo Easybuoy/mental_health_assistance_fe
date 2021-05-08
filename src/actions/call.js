@@ -1,4 +1,11 @@
-import { SET_CALL_RECEIVING_DATA, SET_ACCEPT_CALL, RESET_CALL_DATA, SET_INITIAL_CALL_ACCEPT, SET_CALL_RECEIVING } from './types';
+import {
+  SET_CALL_RECEIVING_DATA,
+  SET_ACCEPT_CALL,
+  RESET_CALL_DATA,
+  SET_INITIAL_CALL_ACCEPT,
+  SET_CALL_RECEIVING,
+  DECLINE_CALL,
+} from './types';
 
 export const setInitialCallAccept = () => {
   return {
@@ -34,4 +41,8 @@ export const resetCallData = (payload) => {
   };
 };
 
-
+export const declineCall = () => {
+  return {
+    type: DECLINE_CALL,
+  };
+};

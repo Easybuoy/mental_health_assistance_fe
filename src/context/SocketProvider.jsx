@@ -1,8 +1,14 @@
 import React, { useContext, useState, useEffect } from 'react';
-import configVariables from '../config/env';
 import io from 'socket.io-client';
-import { useDispatch } from 'react-redux';
-import { setReceivingCallData, setReceivingCall, setInitialCallAccept } from '../actions/call';
+import { useDispatch, useSelector } from 'react-redux';
+import configVariables from '../config/env';
+import {
+  setReceivingCallData,
+  setReceivingCall,
+  setInitialCallAccept,
+  resetCallData,
+} from '../actions/call';
+import { getIsCallDeclined, getCaller } from '../store/selectors/call';
 
 const SocketContext = React.createContext();
 const { API_BASE_URI } = configVariables;
@@ -12,25 +18,30 @@ export const useSocket = () => {
 
 export const SocketProvider = ({ id, children }) => {
   const dispatch = useDispatch();
+  const callDeclined = useSelector(getIsCallDeclined);
+  const caller = useSelector(getCaller);
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
     const newSocket = io(API_BASE_URI, {
       query: { id },
-      transports: ['websocket', 'polling', 'flashsocket']
+      transports: ['websocket', 'polling', 'flashsocket'],
     });
+
     setSocket(newSocket);
     newSocket.on('hi', (data) => {
-      // dispatch(setReceivingCallData(data));
-      // dispatch(setInitialCallAccept(data))
-      dispatch(setReceivingCall(data))
+      dispatch(setReceivingCall(data));
     });
-    // newSocket.on('hey', (data) => {
-    //   dispatch(setReceivingCallData(data));
-    // });
+
+    if (callDeclined) {
+      newSocket.emit('declineCall', { to: caller });
+      setTimeout(() => {
+        dispatch(resetCallData());
+      }, 100);
+    }
 
     return () => newSocket.close();
-  }, [id]);
+  }, [id, callDeclined]);
 
   return (
     <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>

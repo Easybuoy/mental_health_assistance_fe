@@ -42,28 +42,44 @@ const Call = () => {
   // const [callerPeer, setCallerPeer] = useState();
   // const [receiverPeer, setReceiverPeer] = useState();
   // const callerSignal = state?.signal;
-  // console.log(callerSignal, 'callersign');
+
   const userId = useSelector(getUserId);
 
   useEffect(() => {
     if (!socket) return;
 
     if (initialCallAcccepted) {
-      // acceptcall
-      console.log('one two three');
       socket.emit('initAcceptCall', { to: caller });
     }
     socket.on('initCallAccepted', () => {
       setCanCAllNow(true);
-      console.log('calling now');
     });
 
     if (canCalllNow) {
-      console.log('firing');
       fireCall();
     }
-  }, [socket, initialCallAcccepted, canCalllNow]);
 
+    socket.on('callDisconnected', () => {
+      setCallEnded(true);
+      cleanupEndedCall();
+    });
+
+    socket.on('callDeclined', () => {
+      addToast('Call was declined', { appearance: 'error' });
+      history.push(PATHS.HOME);
+    });
+  }, [socket, initialCallAcccepted, canCalllNow, callEnded]);
+
+  const cleanupEndedCall = () => {
+    if (!callEnded) {
+      connectionRef.current.destroy();
+      addToast('User ended call', { appearance: 'success' });
+      dispatch(resetCallData());
+      setTimeout(() => {
+        history.push(PATHS.HOME);
+      }, 100);
+    }
+  };
   useEffect(() => {
     if (!socket) return;
 
@@ -84,16 +100,8 @@ const Call = () => {
 
     if (!callAccepted) {
       socket.on('hey', (data) => {
-        console.log('accepting,');
-        // setCallerSignal(data.signal);
-        // setTimeout(() => {
-        console.log(data, 'datttttt=====');
         setCallerSignal(data.signal);
-        // acceptCall(data.signal, data.from);
         setCanAcceptNow(true);
-        // }, 1000);
-        //   setReceivingCall(true);
-        //   setCaller(data.from);
       });
     }
 
@@ -101,26 +109,10 @@ const Call = () => {
       fireAcceptCall();
       setHasFinallyAccepted(true);
     }
-
-    socket.on('callDisconnected', () => {
-      if (!callEnded) {
-        setCallEnded(true);
-        connectionRef.current.destroy();
-        addToast('User ended call', { appearance: 'success' });
-        dispatch(resetCallData());
-        history.push(PATHS.HOME);
-      }
-    });
-
-    // if (callerSignal && !callAccepted) {
-    //   acceptCall();
-    // }
   }, [socket, callAccepted, canAcceptNow, hasFinallyAccepted]);
 
   const fireCall = () => {
-    // setTimeout(() => {
-    callPeer('60841c601052b0401617be6d');
-    // }, 1500);
+    callPeer(recepientId);
   };
 
   const fireAcceptCall = () => {
@@ -128,11 +120,10 @@ const Call = () => {
   };
   const initCall = () => {
     socket.emit('initCall', {
-      userToCall: '60841c601052b0401617be6d',
+      userToCall: recepientId,
       signal: {},
       from: userId,
     });
-    // callPeer('60841c601052b0401617be6d')
   };
 
   const callPeer = (id) => {
@@ -176,7 +167,6 @@ const Call = () => {
     });
 
     peer.on('stream', (stream) => {
-      console.log('accept call streaming');
       partnerVideo.current.srcObject = stream;
     });
 
@@ -198,7 +188,6 @@ const Call = () => {
   if (stream) {
     UserVideo = <video playsInline muted ref={userVideo} autoPlay />;
   }
-  console.log(callAccepted, callEnded);
 
   let PartnerVideo;
   if (callAccepted) {
