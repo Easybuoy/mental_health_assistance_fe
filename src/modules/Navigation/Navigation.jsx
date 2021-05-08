@@ -1,10 +1,11 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { signOut } from '../../actions/auth';
 import { getIsAuthenticated } from '../../store/selectors/auth';
+import PATHS from '../../config/constants/paths';
 
 import './Navigation.scss';
-import Button from '../Common/Button/Button';
 
 const Navigation = () => {
   const dispatch = useDispatch();
@@ -17,28 +18,28 @@ const Navigation = () => {
   return (
     <nav className="container navigation">
       <div className="logo">
-        <p>MHA</p>
+        <Link to={PATHS.HOME}>MHA</Link>
       </div>
 
       {isAuthenticated ? (
         <div className="nav-links">
           <div className="links">
-            <Button>Peer-peer</Button>
+            <Link to={PATHS.PEERS}>Peer-peer</Link>
           </div>
           <div className="links">
-            <Button>Therapist</Button>
+            <Link to={PATHS.THERAPISTS}>Therapist</Link>
           </div>
           <div className="links">
-            <Button onClick={onSignOutClick}>Signout</Button>
+            <Link to="/" onClick={onSignOutClick}>Signout</Link>
           </div>
         </div>
       ) : (
         <div className="nav-links">
           <div className="links">
-            <Button>Sign in</Button>
+            <Link to={PATHS.LOGIN}>Sign in</Link>
           </div>
           <div className="links">
-            <Button>Register</Button>
+            <Link to={PATHS.REGISTER}>Register</Link>
           </div>
         </div>
       )}

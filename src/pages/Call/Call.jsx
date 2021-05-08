@@ -1,31 +1,68 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Peer from 'simple-peer';
-import { useSelector } from 'react-redux';
-import { useParams, useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { useParams, useHistory, useLocation } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
 
 import { useSocket } from '../../context/SocketProvider';
 import { getUserId } from '../../store/selectors/auth';
+import {
+  getCallAccepted,
+  getCaller,
+  getInitialCallAccept,
+} from '../../store/selectors/call';
+import { setAcceptCall, resetCallData } from '../../actions/call';
 import PATHS from '../../config/constants/paths';
 
 const Call = () => {
   const params = useParams();
   const history = useHistory();
+  const location = useLocation();
+  const dispatch = useDispatch();
   const { recepientId } = params;
+  const { state } = location;
   const { addToast } = useToasts();
 
   const socket = useSocket();
   const [stream, setStream] = useState();
   const userVideo = useRef();
   const partnerVideo = useRef();
-  const [callAccepted, setCallAccepted] = useState(false);
+  // const [callAccepted, setCallAccepted] = useState(false);
+  const callAccepted = useSelector(getCallAccepted);
+  const initialCallAcccepted = useSelector(getInitialCallAccept);
+  const caller = useSelector(getCaller);
   const [receivingCall, setReceivingCall] = useState(false);
-  const [caller, setCaller] = useState('');
+  // const [caller, setCaller] = useState('');
   const [callerSignal, setCallerSignal] = useState();
   const [callEnded, setCallEnded] = useState(false);
   const connectionRef = useRef();
-
+  const [canCalllNow, setCanCAllNow] = useState(false);
+  const [canAcceptNow, setCanAcceptNow] = useState(false);
+  const [hasFinallyAccepted, setHasFinallyAccepted] = useState(false);
+  // const [callerPeer, setCallerPeer] = useState();
+  // const [receiverPeer, setReceiverPeer] = useState();
+  // const callerSignal = state?.signal;
+  // console.log(callerSignal, 'callersign');
   const userId = useSelector(getUserId);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    if (initialCallAcccepted) {
+      // acceptcall
+      console.log('one two three');
+      socket.emit('initAcceptCall', { to: caller });
+    }
+    socket.on('initCallAccepted', () => {
+      setCanCAllNow(true);
+      console.log('calling now');
+    });
+
+    if (canCalllNow) {
+      console.log('firing');
+      fireCall();
+    }
+  }, [socket, initialCallAcccepted, canCalllNow]);
 
   useEffect(() => {
     if (!socket) return;
@@ -45,15 +82,50 @@ const Call = () => {
         history.push(PATHS.HOME);
       });
 
-    // callPeer(recepientId);
+    if (!callAccepted) {
+      socket.on('hey', (data) => {
+        console.log('accepting,');
+        // setCallerSignal(data.signal);
+        // setTimeout(() => {
+        console.log(data, 'datttttt=====');
+        setCallerSignal(data.signal)
+        // acceptCall(data.signal, data.from);
+        setCanAcceptNow(true)
+        // }, 1000);
+        //   setReceivingCall(true);
+        //   setCaller(data.from);
+      });
+    }
 
-    socket.on('hey', (data) => {
-      setReceivingCall(true);
-      setCaller(data.from);
-      setCallerSignal(data.signal);
-      console.log(data.signal, 'data.signal')
+    if (canAcceptNow && !hasFinallyAccepted) {
+      fireAcceptCall()
+      setHasFinallyAccepted(true);
+    }
+
+
+    // if (callerSignal && !callAccepted) {
+    //   acceptCall();
+    // }
+  }, [socket, callAccepted, canAcceptNow, hasFinallyAccepted]);
+
+  const fireCall = () => {
+    // setTimeout(() => {
+      callPeer('60841c601052b0401617be6d');
+    // }, 1500);
+  };
+
+  const fireAcceptCall = (signal, from) => {
+    console.log('caller', caller)
+    acceptCall(callerSignal, caller);
+  }
+  const initCall = () => {
+    socket.emit('initCall', {
+      userToCall: '60841c601052b0401617be6d',
+      signal: {},
+      from: userId,
     });
-  }, [socket]);
+    // callPeer('60841c601052b0401617be6d')
+  };
 
   const callPeer = (id) => {
     const peer = new Peer({
@@ -69,34 +141,39 @@ const Call = () => {
         from: userId,
       });
     });
-
+    // setCallerPeer(peer);
+    console.log('calling');
     peer.on('stream', (stream) => {
+      console.log('call peer streaming', stream);
       if (partnerVideo.current) {
         partnerVideo.current.srcObject = stream;
       }
     });
 
     socket.on('callAccepted', (signal) => {
-      setCallAccepted(true);
-
+      dispatch(setAcceptCall());
       peer.signal(signal);
     });
     connectionRef.current = peer;
   };
 
-  const acceptCall = () => {
-    setCallAccepted(true);
+  const acceptCall = (callerSignal, callerId) => {
+    // setCallAccepted(true);
+    dispatch(setAcceptCall());
     const peer = new Peer({
       initiator: false,
       trickle: false,
       stream,
     });
-
+    console.log('--------', callerId);
+    console.log(callerId, 'call', callerSignal);
     peer.on('signal', (data) => {
-      socket.emit('acceptCall', { signal: data, to: caller });
+      console.log('accepting signal', data);
+      socket.emit('acceptCall', { signal: data, to: callerId });
     });
 
     peer.on('stream', (stream) => {
+      console.log('accept call streaming');
       partnerVideo.current.srcObject = stream;
     });
 
@@ -107,6 +184,7 @@ const Call = () => {
   const leaveCall = () => {
     setCallEnded(true);
     connectionRef.current.destroy();
+    // dispatch(resetCallData());
   };
 
   let UserVideo;
@@ -127,17 +205,15 @@ const Call = () => {
       {callAccepted && !callEnded ? <div>{PartnerVideo}</div> : null}
 
       <div className="callpeer">
-        <button onClick={() => callPeer('60841c601052b0401617be6d')}>
-          Call
-        </button>
+        <button onClick={() => initCall()}>Call</button>
       </div>
 
-      {receivingCall && !callAccepted && (
+      {/* {receivingCall && !callAccepted && (
         <div className="incoming-call">
           <h1>{caller} is Calling you</h1>
           <button onClick={acceptCall}>Accept</button>
         </div>
-      )}
+      )} */}
 
       <button onClick={leaveCall}>End call</button>
     </div>
