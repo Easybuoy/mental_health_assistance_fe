@@ -88,9 +88,9 @@ const Call = () => {
         // setCallerSignal(data.signal);
         // setTimeout(() => {
         console.log(data, 'datttttt=====');
-        setCallerSignal(data.signal)
+        setCallerSignal(data.signal);
         // acceptCall(data.signal, data.from);
-        setCanAcceptNow(true)
+        setCanAcceptNow(true);
         // }, 1000);
         //   setReceivingCall(true);
         //   setCaller(data.from);
@@ -98,10 +98,19 @@ const Call = () => {
     }
 
     if (canAcceptNow && !hasFinallyAccepted) {
-      fireAcceptCall()
+      fireAcceptCall();
       setHasFinallyAccepted(true);
     }
 
+    socket.on('callDisconnected', () => {
+      if (!callEnded) {
+        setCallEnded(true);
+        connectionRef.current.destroy();
+        addToast('User ended call', { appearance: 'success' });
+        dispatch(resetCallData());
+        history.push(PATHS.HOME);
+      }
+    });
 
     // if (callerSignal && !callAccepted) {
     //   acceptCall();
@@ -110,14 +119,13 @@ const Call = () => {
 
   const fireCall = () => {
     // setTimeout(() => {
-      callPeer('60841c601052b0401617be6d');
+    callPeer('60841c601052b0401617be6d');
     // }, 1500);
   };
 
-  const fireAcceptCall = (signal, from) => {
-    console.log('caller', caller)
+  const fireAcceptCall = () => {
     acceptCall(callerSignal, caller);
-  }
+  };
   const initCall = () => {
     socket.emit('initCall', {
       userToCall: '60841c601052b0401617be6d',
@@ -141,10 +149,7 @@ const Call = () => {
         from: userId,
       });
     });
-    // setCallerPeer(peer);
-    console.log('calling');
     peer.on('stream', (stream) => {
-      console.log('call peer streaming', stream);
       if (partnerVideo.current) {
         partnerVideo.current.srcObject = stream;
       }
@@ -165,10 +170,8 @@ const Call = () => {
       trickle: false,
       stream,
     });
-    console.log('--------', callerId);
-    console.log(callerId, 'call', callerSignal);
+
     peer.on('signal', (data) => {
-      console.log('accepting signal', data);
       socket.emit('acceptCall', { signal: data, to: callerId });
     });
 
@@ -184,7 +187,11 @@ const Call = () => {
   const leaveCall = () => {
     setCallEnded(true);
     connectionRef.current.destroy();
-    // dispatch(resetCallData());
+
+    socket.emit('disconnectCall', { to: recepientId });
+    addToast('Call ended', { appearance: 'success' });
+    dispatch(resetCallData());
+    history.push(PATHS.HOME);
   };
 
   let UserVideo;

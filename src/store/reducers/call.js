@@ -39,10 +39,8 @@ const callReducer = (state = INITIAL_STATE, action) => {
         ...state,
         callAccepted: true,
       };
-    // case RESET_CALL_DATA:
-    // return {
-    //   INITIAL_STATE,
-    // };
+    case RESET_CALL_DATA:
+      return { ...state, ...INITIAL_STATE };
     default:
       return state;
   }
