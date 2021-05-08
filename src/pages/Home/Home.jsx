@@ -4,7 +4,7 @@ import React from 'react';
 const Home = () => {
 
   return (
-    <div>
+    <div className="container" style={{height: '1000px'}}>
       {/* <div>{tl8('title')}</div> */}
       Subscription plan
     </div>

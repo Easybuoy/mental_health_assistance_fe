@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Peer from 'simple-peer';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams, useHistory, useLocation } from 'react-router-dom';
+import { useParams, useHistory, useLocation, Link } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
 
 import { useSocket } from '../../context/SocketProvider';
@@ -13,6 +13,10 @@ import {
 } from '../../store/selectors/call';
 import { setAcceptCall, resetCallData } from '../../actions/call';
 import PATHS from '../../config/constants/paths';
+import CallIcon from '../../assets/svg/end-call.svg';
+import MuteIcon from '../../assets/svg/mute.svg';
+
+import './Call.scss';
 
 const Call = () => {
   const params = useParams();
@@ -72,7 +76,9 @@ const Call = () => {
 
   const cleanupEndedCall = () => {
     if (!callEnded) {
-      connectionRef.current.destroy();
+      if (connectionRef.current) {
+        connectionRef.current.destroy();
+      }
       addToast('User ended call', { appearance: 'success' });
       dispatch(resetCallData());
       setTimeout(() => {
@@ -154,7 +160,6 @@ const Call = () => {
   };
 
   const acceptCall = (callerSignal, callerId) => {
-    // setCallAccepted(true);
     dispatch(setAcceptCall());
     const peer = new Peer({
       initiator: false,
@@ -176,7 +181,9 @@ const Call = () => {
 
   const leaveCall = () => {
     setCallEnded(true);
-    connectionRef.current.destroy();
+    if (connectionRef.current) {
+      connectionRef.current.destroy();
+    }
 
     socket.emit('disconnectCall', { to: recepientId });
     addToast('Call ended', { appearance: 'success' });
@@ -186,22 +193,39 @@ const Call = () => {
 
   let UserVideo;
   if (stream) {
-    UserVideo = <video playsInline muted ref={userVideo} autoPlay />;
+    UserVideo = (
+      <video className="video" playsInline muted ref={userVideo} autoPlay />
+    );
   }
 
   let PartnerVideo;
   if (callAccepted) {
-    PartnerVideo = <video playsInline ref={partnerVideo} autoPlay />;
+    PartnerVideo = (
+      <video className="video" playsInline ref={partnerVideo} autoPlay />
+    );
   }
 
   return (
-    <div className="call-containaer">
-      {stream && UserVideo}
+    <div className="container call-containaer">
+      <div className="caller-container">{stream && UserVideo}</div>
 
-      {callAccepted && !callEnded ? <div>{PartnerVideo}</div> : null}
+      {callAccepted && !callEnded ? (
+        <div className="receiver-container">{PartnerVideo}</div>
+      ) : null}
 
-      <div className="callpeer">
-        <button onClick={() => initCall()}>Call</button>
+      <div className="call-actions">
+        <div className="action callpeer">
+          <Link onClick={() => initCall()}>
+            <img src={MuteIcon} alt="mute" />
+          </Link>
+        </div>
+        {(hasFinallyAccepted || callAccepted) && (
+          <div className="action">
+            <Link onClick={leaveCall}>
+              <img src={CallIcon} alt="mute" />
+            </Link>
+          </div>
+        )}
       </div>
 
       {/* {receivingCall && !callAccepted && (
@@ -210,8 +234,6 @@ const Call = () => {
           <button onClick={acceptCall}>Accept</button>
         </div>
       )} */}
-
-      <button onClick={leaveCall}>End call</button>
     </div>
   );
 };
