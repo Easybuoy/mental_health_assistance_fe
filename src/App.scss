@@ -3,6 +3,7 @@
 
 body {
   font-family: $primary-font;
+  // background: #e1dede;
 }
 
 a {
@@ -25,4 +26,10 @@ a {
 
 .text-center {
   text-align: center;
+}
+
+.page-title {
+  color: $brand-primary;
+  font-size: $font-size-medium;
+  margin: $spacing-16 0;
 }

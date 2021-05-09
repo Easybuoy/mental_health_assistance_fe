@@ -21,10 +21,23 @@
         "accept": "Accept",
         "decline": "Decline"
       }
-      
+    },
+    "chat": {
+      "enter_message": "Enter Message"
+    },
+    "peer": {
+      "page_title": "Peers"
     },
     "image_alt": {
       "call": "Call",
-      "chat": "Chat"
+      "chat": "Chat",
+      "auth": "Healthy and Happy People",
+      "istagram": "Instagram",
+      "mail": "Mail",
+      "twitter": "Twitter",
+      "facebook": "Facebook"
+    },
+    "footer": {
+      "app_name": "Mental Health Assistance"
     }
 }

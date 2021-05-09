@@ -5,7 +5,7 @@ import { useParams, useHistory, useLocation, Link } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
 
 import SVG from '../../config/constants/svg';
-import Image from '../../modules/Common/Image/Image'
+import Image from '../../modules/Common/Image/Image';
 import { useSocket } from '../../context/SocketProvider';
 import { getUserId } from '../../store/selectors/auth';
 import {
@@ -25,6 +25,7 @@ const Call = () => {
   const dispatch = useDispatch();
   const { recepientId } = params;
   const { state } = location;
+  console.log(state);
   const { addToast } = useToasts();
 
   const socket = useSocket();
@@ -52,6 +53,10 @@ const Call = () => {
   useEffect(() => {
     if (!socket) return;
 
+    if (state?.makeCall) {
+      initCall();
+    }
+
     if (initialCallAcccepted) {
       socket.emit('initAcceptCall', { to: caller });
     }
@@ -72,13 +77,20 @@ const Call = () => {
       addToast('Call was declined', { appearance: 'error' });
       history.push(PATHS.HOME);
     });
-  }, [socket, initialCallAcccepted, canCalllNow, callEnded]);
+  }, [socket, state, initialCallAcccepted, canCalllNow, callEnded]);
+
+  // useEffect(() => {
+  //   // if (state?.makeCall) {
+  //   //   initCall();
+  //   // }
+  // }, [state]);
 
   const cleanupEndedCall = () => {
     if (!callEnded) {
       if (connectionRef.current) {
         connectionRef.current.destroy();
       }
+      stopStream(stream);
       addToast('User ended call', { appearance: 'success' });
       dispatch(resetCallData());
       setTimeout(() => {
@@ -86,26 +98,26 @@ const Call = () => {
       }, 100);
     }
   };
+
   useEffect(() => {
     if (!socket) return;
 
     if (!stream) {
       navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true })
-      .then((stream) => {
-        setStream(stream);
-        if (userVideo.current) {
-          userVideo.current.srcObject = stream;
-        }
-      })
-      .catch(() => {
-        addToast('Kindly allow access to the camera and microphone', {
-          appearance: 'error',
+        .getUserMedia({ video: true, audio: true })
+        .then((stream) => {
+          setStream(stream);
+          if (userVideo.current) {
+            userVideo.current.srcObject = stream;
+          }
+        })
+        .catch(() => {
+          addToast('Kindly allow access to the camera and microphone', {
+            appearance: 'error',
+          });
+          history.push(PATHS.HOME);
         });
-        history.push(PATHS.HOME);
-      });
     }
-    
 
     if (!callAccepted) {
       socket.on('hey', (data) => {
@@ -118,12 +130,12 @@ const Call = () => {
       fireAcceptCall();
       setHasFinallyAccepted(true);
     }
-    return () => {stream && stopStream(stream)}
   }, [socket, stream, callAccepted, canAcceptNow, hasFinallyAccepted]);
 
   const stopStream = (stream) => {
-    return stream.getTracks().forEach(track => track.stop())
-  }
+    if (!stream) return;
+    return stream.getTracks().forEach((track) => track.stop());
+  };
   const fireCall = () => {
     callPeer(recepientId);
   };
@@ -131,12 +143,22 @@ const Call = () => {
   const fireAcceptCall = () => {
     acceptCall(callerSignal, caller);
   };
+
   const initCall = () => {
-    socket.emit('initCall', {
-      userToCall: recepientId,
-      signal: {},
-      from: userId,
-    });
+    console.log('calling');
+    if (!socket) {
+      addToast('Call not allowed', { appearance: 'error' });
+      history.push(PATHS.HOME);
+      return;
+    }
+    if (!callAccepted) {
+      addToast('Calling user', { appearance: 'info' });
+      socket.emit('initCall', {
+        userToCall: recepientId,
+        signal: {},
+        from: userId,
+      });
+    }
   };
 
   const callPeer = (id) => {
@@ -198,6 +220,8 @@ const Call = () => {
     history.push(PATHS.HOME);
   };
 
+  const muteCall = () => {};
+
   let UserVideo;
   if (stream) {
     UserVideo = (
@@ -223,7 +247,7 @@ const Call = () => {
       {stream && (
         <div className="call-actions">
           <div className="action callpeer">
-            <Link onClick={() => initCall()}>
+            <Link onClick={() => muteCall()}>
               <Image src={SVG.MUTE} alt="mute" />
             </Link>
           </div>

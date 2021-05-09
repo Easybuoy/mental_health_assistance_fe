@@ -3,9 +3,7 @@ import io from 'socket.io-client';
 import { useDispatch, useSelector } from 'react-redux';
 import configVariables from '../config/env';
 import {
-  setReceivingCallData,
   setReceivingCall,
-  setInitialCallAccept,
   resetCallData,
 } from '../actions/call';
 import { getIsCallDeclined, getCaller } from '../store/selectors/call';
@@ -41,7 +39,7 @@ export const SocketProvider = ({ id, children }) => {
     }
 
     return () => newSocket.close();
-  }, [id, callDeclined]);
+  }, [id, callDeclined, caller, dispatch]);
 
   return (
     <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>

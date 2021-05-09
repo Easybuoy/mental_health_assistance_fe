@@ -58,7 +58,7 @@ const Chat = () => {
       socket.off('messages');
       socket.off('message');
     };
-  }, [userId, socket]);
+  }, [userId, socket, dispatch, recepientId]);
 
   useEffect(() => {
     if (messages.length > 0) {
@@ -118,7 +118,7 @@ const Chat = () => {
           <Input
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
-            placeholder="Enter message"
+            placeholder={tl8('chat.enter_message')}
           />
           <Button>→</Button>
         </form>

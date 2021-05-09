@@ -18,7 +18,7 @@
     box-sizing: border-box;
     &:focus {
       border-color: $brand-primary;
-      box-shadow: 0 0 0 3px rgba(170, 50, 48, 0.2);
+      // box-shadow: 0 0 0 3px rgba(170, 50, 48, 0.2);
       outline: 1px solid transparent;
     }
   }
