@@ -3,6 +3,7 @@ import jwt_decode from 'jwt-decode';
 
 import setAuthToken from '../utils/setAuthToken';
 import configVariables from '../config/env';
+import APIROUTES from '../config/constants/api';
 import { LOGIN, SIGN_OUT, SET_CURRENT_USER } from './types';
 // import { setError } from './error';
 
@@ -14,11 +15,11 @@ export const loginUser = (email, password) => (dispatch) => {
     password,
   };
   return axios
-    .post(`${API_BASE_URI}/api/auth/login`, payload)
+    .post(`${API_BASE_URI}${APIROUTES.LOGIN}`, payload)
     .then((res) => {
       const { data } = res.data;
       setAuthToken(data.token);
-      localStorage.setItem('token', data.token)
+      localStorage.setItem('token', data.token);
       const decodedToken = jwt_decode(data.token);
       dispatch(setCurrentUser(decodedToken));
       return decodedToken;
@@ -30,10 +31,10 @@ export const loginUser = (email, password) => (dispatch) => {
 
 export const registerUser = (payload) => (dispatch) => {
   return axios
-    .post(`${API_BASE_URI}/api/auth/register`, payload)
+    .post(`${API_BASE_URI}${APIROUTES.REGISTER}`, payload)
     .then((res) => {
       const { data } = res.data;
-       console.log(data, '--')
+
       // setAuthToken(data.token);
       // localStorage.setItem('token', data.token)
       // const decodedToken = jwt_decode(data.token);

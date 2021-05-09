@@ -9,6 +9,7 @@ import Chat from '../../pages/Chat/Chat';
 import Call from '../../pages/Call/Call';
 import TermsPage from '../../pages/Terms/Terms';
 import Peers from '../../pages/Peers/Peers';
+import Therapists from '../../pages/Therapists/Therapists';
 import NotFoundPage from '../../pages/NotFound/NotFound';
 
 const commonRoutes = [
@@ -27,6 +28,7 @@ export const userRoutes = [
   <PrivateRoute exact path={PATHS.PEERS} component={Peers} />,
   <PrivateRoute exact path={PATHS.CHAT} component={Chat} />,
   <PrivateRoute exact path={PATHS.CALL} component={Call} />,
+  <PrivateRoute exact path={PATHS.THERAPISTS} component={Therapists} />,
   ...commonRoutes,
 ];
 

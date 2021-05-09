@@ -3,55 +3,53 @@ import { Link, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useToasts } from 'react-toast-notifications';
 
-import { getPeers } from '../../actions/peer';
+import { getTherapists } from '../../actions/therapists';
 import Loader from '../../modules/Common/Loader/Loader';
 import PATHS from '../../config/constants/paths';
 import SVG from '../../config/constants/svg';
 import Image from '../../modules/Common/Image/Image';
 import Card from '../../modules/Common/Card/Card';
 import { tl8, tl8Html } from '../../utils/locale';
-import { getPeers as getPeersState } from '../../store/selectors/peer';
-import './Peers.scss';
+import { getTherapists as getTherapistsState } from '../../store/selectors/therapist';
+import './Therapists.scss';
 
-const Peers = () => {
+const Therapists = () => {
   const { addToast } = useToasts();
   const dispatch = useDispatch();
   const history = useHistory();
   const [isLoading, setIsLoading] = useState(false);
-  const peers = useSelector(getPeersState);
+  const peers = useSelector(getTherapistsState);
 
   useEffect(() => {
-    const getPeersAsync = async () => {
+    const getTherapistsAsync = async () => {
       setIsLoading(true);
       try {
-        await dispatch(getPeers());
+        await dispatch(getTherapists());
       } catch (error) {
         addToast(error, { appearance: 'error' });
         history.push(PATHS.HOME);
       }
       setIsLoading(false);
     };
-    getPeersAsync();
+    getTherapistsAsync();
   }, [addToast, dispatch, history]);
 
   if (isLoading) return <Loader size={25} thickness={250} className="loader" />;
 
   return (
     <div className="container">
-      <div className="peer-page">
-        <h2 className="text-center page-title">{tl8('peer.page_title')}</h2>
+      <div className="therapist-page">
+        <h2 className="text-center page-title">{tl8('therapist.page_title')}</h2>
         <p className="page-description">
-          {tl8Html('peer.page_description', { className: 'danger-text' })}
+          {tl8Html('therapist.page_description', { className: 'danger-text' })}
         </p>
-        <div className="peer-container">
+        <div className="therapist-container">
           {peers.map((peer) => (
             <Card key={peer._id}>
               <div className="image-container">
                 {peer.userTypeString && (
                   <p
-                    className={`badge ${
-                      peer.userTypeString === 'Peer' ? 'black-background' : ''
-                    }`}
+                    className="badge therapist-badge"
                   >
                     {peer.userTypeString}
                   </p>
@@ -84,4 +82,4 @@ const Peers = () => {
   );
 };
 
-export default Peers;
+export default Therapists;

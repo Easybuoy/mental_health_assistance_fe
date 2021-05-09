@@ -30,6 +30,10 @@
       "page_title": "Peers",
       "page_description": "This is a page where you can get to meet with fellow peers or volunteer therapists where you can share and talk about each other experiences. <span class=\"%{className}\">DISCLAIMER: This is not regulated and you are responsible for anything you share and we would not be liable if information shared is misused by the other peer or volumteer therapist!</span>"
     },
+    "therapist": {
+      "page_title": "Therapists",
+      "page_description": "This is a page where you can get to meet with fellow peers or volunteer therapists where you can share and talk about each other experiences. <span class=\"%{className}\">DISCLAIMER: This is not regulated and you are responsible for anything you share and we would not be liable if information shared is misused by the other peer or volumteer therapist!</span>"
+    },
     "image_alt": {
       "call": "Call",
       "chat": "Chat",

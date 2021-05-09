@@ -1,0 +1,16 @@
+@import '../../../assets/styles/variables.scss';
+
+.card {
+  width: 100%;
+  margin: $spacing-16;
+  height: 400px;
+  box-shadow: $box-shadow;
+  border-radius: $border-radius;
+  @media screen and (min-width: $screen-sm-mid-min) {
+    width: 30%;
+  }
+
+  @media screen and (min-width: $screen-sm-mid-min) and (max-width: $screen-lg-min) {
+    width: 44%;
+  }
+}
