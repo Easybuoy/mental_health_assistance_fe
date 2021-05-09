@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import { ToastProvider } from 'react-toast-notifications';
 
@@ -50,11 +50,8 @@ ReactDOM.render(
           // placement="bottom-center"
         >
           <ConnectivityListener />
-          {/* <AcceptCall /> */}
           <Navigation />
-          <Switch>
             <App />
-          </Switch>
           <Footer />
         </ToastProvider>
       </Router>

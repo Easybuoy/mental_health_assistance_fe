@@ -10,6 +10,7 @@
       "full_name": "Full name",
       "phone": "Phone",
       "terms": "Privacy and terms",
+      "image": "Profile Image Url (Optional)",
       "bottom": {
         "dont_have_account": "Don't have an account?",
         "already_have_account": "Already have an account?"
@@ -26,18 +27,23 @@
       "enter_message": "Enter Message"
     },
     "peer": {
-      "page_title": "Peers"
+      "page_title": "Peers",
+      "page_description": "This is a page where you can get to meet with fellow peers or volunteer therapists where you can share and talk about each other experiences. <span class=\"%{className}\">DISCLAIMER: This is not regulated and you are responsible for anything you share and we would not be liable if information shared is misused by the other peer or volumteer therapist!</span>"
     },
     "image_alt": {
       "call": "Call",
       "chat": "Chat",
       "auth": "Healthy and Happy People",
-      "istagram": "Instagram",
+      "instagram": "Instagram",
       "mail": "Mail",
       "twitter": "Twitter",
-      "facebook": "Facebook"
+      "facebook": "Facebook",
+      "not_found": "Not Found"
     },
     "footer": {
       "app_name": "Mental Health Assistance"
+    },
+    "not_found": {
+      "title": "Page Not Found! Redirecting you to homepage!"
     }
 }

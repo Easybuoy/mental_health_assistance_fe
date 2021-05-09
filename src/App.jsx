@@ -1,35 +1,44 @@
-import { Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-
-import './App.scss';
-import Login from './pages/Auth/Login/Login';
-import Register from './pages/Auth/Register/Register';
-import Home from './pages/Home/Home';
-import PATHS from './config/constants/paths'
-import PrivateRoute from './modules/PrivateRoute/PrivateRoute';
-import Chat from './pages/Chat/Chat';
-import Call from './pages/Call/Call';
-import TermsPage from './pages/Terms/Terms';
-import Peers from './pages/Peers/Peers';
-import { getUserId } from './store/selectors/auth';
+import { Switch } from 'react-router-dom';
+import USERTYPES from './config/constants/usertype';
+import {
+  getUserId,
+  getUserType,
+  getIsAuthenticated,
+} from './store/selectors/auth';
 import { SocketProvider } from './context/SocketProvider';
 import AcceptCall from './modules/Common/AcceptCall/AcceptCall';
+import {
+  userRoutes,
+  therapistRoutes,
+  unAuthenticatedRoutes,
+} from './config/constants/routes';
+import './App.scss';
+import React from 'react';
 
 function App() {
-  const userId = useSelector(getUserId)
+  const userId = useSelector(getUserId);
+  const userType = useSelector(getUserType);
+  const isAuthenticated = useSelector(getIsAuthenticated);
+  let routes = unAuthenticatedRoutes;
+
+  if (isAuthenticated) {
+    if (userType === USERTYPES.PEER) {
+      routes = userRoutes;
+    } else {
+      routes = therapistRoutes;
+    }
+  }
 
   return (
     <SocketProvider id={userId}>
       <AcceptCall />
-      <Route exact path={PATHS.LOGIN} component={Login} />
-      <Route exact path={PATHS.REGISTER} component={Register} />
-      <Route exact path={PATHS.TERMS} component={TermsPage} />
-      <Route exact path={PATHS.HOME} component={Home} />
-      <PrivateRoute exact path={PATHS.PEERS} component={Peers} />
-      {/* <PrivateRoute exact path={PATHS.CHATS} component={Chat} /> */}
-      <PrivateRoute exact path={PATHS.CHAT} component={Chat} />
-      <PrivateRoute exact path={PATHS.CALL} component={Call} />
-      {/* <Route path="*" component={NotFound} /> */}
+      <Switch>
+        {/* {routes.map((route, i) => (
+          <React.Fragment key={i}>{route}</React.Fragment>
+        ))} */}
+        {routes.map((route, i) => route)}
+      </Switch>
     </SocketProvider>
   );
 }

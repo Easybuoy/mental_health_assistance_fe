@@ -9,6 +9,7 @@ import TwitterIcon from '../../assets/svg/twitter.svg';
 import MailIcon from '../../assets/svg/mail.svg';
 import FacebookIcon from '../../assets/svg/facebook.svg';
 import InstagramIcon from '../../assets/svg/instagram.svg';
+import NotFoundIcon from '../../assets/svg/not-found.svg';
 
 const SVG = {
   SEND: SendIcon,
@@ -22,5 +23,6 @@ const SVG = {
   MAIL: MailIcon,
   FACEBOOK: FacebookIcon,
   INSTAGRAM: InstagramIcon,
+  NOT_FOUND: NotFoundIcon,
 };
 export default SVG;

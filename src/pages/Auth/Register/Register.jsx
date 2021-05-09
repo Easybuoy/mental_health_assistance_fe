@@ -18,6 +18,7 @@ const Register = ({ history }) => {
   const [password, setPassword] = useState('');
   const [phone, setPhone] = useState('');
   const [fullName, setFullName] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
   const [terms, setTerms] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isRegistrationSuccessful, setIsRegistrationSuccessful] = useState(
@@ -41,6 +42,7 @@ const Register = ({ history }) => {
       fullName,
       phone,
       terms,
+      image: imageUrl,
       userType: 1,
     };
     try {
@@ -112,6 +114,13 @@ const Register = ({ history }) => {
               minLength="8"
               onChange={(e) => setPassword(e.target.value)}
               required
+            />
+
+            <Input
+              type="text"
+              placeholder={tl8('auth.image')}
+              value={imageUrl}
+              onChange={(e) => setImageUrl(e.target.value)}
             />
 
             <Input

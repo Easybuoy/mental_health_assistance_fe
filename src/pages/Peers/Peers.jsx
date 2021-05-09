@@ -8,7 +8,7 @@ import Loader from '../../modules/Common/Loader/Loader';
 import PATHS from '../../config/constants/paths';
 import SVG from '../../config/constants/svg';
 import Image from '../../modules/Common/Image/Image';
-import { tl8 } from '../../utils/locale';
+import { tl8, tl8Html } from '../../utils/locale';
 import { getPeers as getPeersState } from '../../store/selectors/peer';
 import './Peers.scss';
 
@@ -38,7 +38,9 @@ const Peers = () => {
   return (
     <div className="peer-page container">
       <h2 className="text-center page-title">{tl8('peer.page_title')}</h2>
-
+      <p className="page-description">
+        {tl8Html('peer.page_description', { className: 'danger-text' })}
+      </p>
       <div className="peer-container">
         {peers.map((peer) => (
           <div key={peer._id} className="peer">
@@ -52,10 +54,7 @@ const Peers = () => {
                   {peer.userTypeString}
                 </p>
               )}
-              <Image
-                src={peer.image}
-                alt="placeholder image"
-              />
+              <Image src={peer.image} alt="placeholder image" />
             </div>
             <div className="details">
               <h3 className="text-center name">{peer.fullName}</h3>
@@ -65,7 +64,12 @@ const Peers = () => {
                   <Image src={SVG.CHAT} alt={tl8('image_alt.chat')} />
                 </Link>
 
-                <Link to={{pathname: `/call/${peer._id}`, state: { makeCall: true }}}>
+                <Link
+                  to={{
+                    pathname: `/call/${peer._id}`,
+                    state: { makeCall: true },
+                  }}
+                >
                   <Image src={SVG.CALL} alt={tl8('image_alt.call')} />
                 </Link>
               </div>

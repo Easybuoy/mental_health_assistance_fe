@@ -33,3 +33,16 @@ a {
   font-size: $font-size-medium;
   margin: $spacing-16 0;
 }
+
+.page-description {
+  text-align: justify;
+  line-height: 1.4;
+  font-size: $font-size-normal;
+  margin-bottom: $spacing-16;
+}
+
+.danger-text {
+  color: $danger;
+  font-weight: 800;
+  font-family: $secondary-font;
+}
