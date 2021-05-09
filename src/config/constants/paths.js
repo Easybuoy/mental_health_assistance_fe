@@ -6,6 +6,8 @@ const PATHS = {
     CHATS: '/chats',
     CHAT: '/chat/:recepientId',
     CALL: '/call/:recepientId',
+    PEERS: '/peers',
+    THERAPISTS: '/therapists',
   };
   export default PATHS;
   

@@ -14,5 +14,17 @@
         "dont_have_account": "Don't have an account?",
         "already_have_account": "Already have an account?"
       }
+    },
+    "call": {
+      "accept_call": {
+        "incoming":"%{name} is calling you",
+        "accept": "Accept",
+        "decline": "Decline"
+      }
+      
+    },
+    "image_alt": {
+      "call": "Call",
+      "chat": "Chat"
     }
 }

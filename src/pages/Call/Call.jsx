@@ -1,36 +1,96 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Peer from 'simple-peer';
-import { useSelector } from 'react-redux';
-import { useParams, useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { useParams, useHistory, useLocation, Link } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
 
+import SVG from '../../config/constants/svg';
+import Image from '../../modules/Common/Image/Image'
 import { useSocket } from '../../context/SocketProvider';
 import { getUserId } from '../../store/selectors/auth';
+import {
+  getCallAccepted,
+  getCaller,
+  getInitialCallAccept,
+} from '../../store/selectors/call';
+import { setAcceptCall, resetCallData } from '../../actions/call';
 import PATHS from '../../config/constants/paths';
+
+import './Call.scss';
 
 const Call = () => {
   const params = useParams();
   const history = useHistory();
+  const location = useLocation();
+  const dispatch = useDispatch();
   const { recepientId } = params;
+  const { state } = location;
   const { addToast } = useToasts();
 
   const socket = useSocket();
   const [stream, setStream] = useState();
   const userVideo = useRef();
   const partnerVideo = useRef();
-  const [callAccepted, setCallAccepted] = useState(false);
+  // const [callAccepted, setCallAccepted] = useState(false);
+  const callAccepted = useSelector(getCallAccepted);
+  const initialCallAcccepted = useSelector(getInitialCallAccept);
+  const caller = useSelector(getCaller);
   const [receivingCall, setReceivingCall] = useState(false);
-  const [caller, setCaller] = useState('');
+  // const [caller, setCaller] = useState('');
   const [callerSignal, setCallerSignal] = useState();
   const [callEnded, setCallEnded] = useState(false);
   const connectionRef = useRef();
+  const [canCalllNow, setCanCAllNow] = useState(false);
+  const [canAcceptNow, setCanAcceptNow] = useState(false);
+  const [hasFinallyAccepted, setHasFinallyAccepted] = useState(false);
+  // const [callerPeer, setCallerPeer] = useState();
+  // const [receiverPeer, setReceiverPeer] = useState();
+  // const callerSignal = state?.signal;
 
   const userId = useSelector(getUserId);
 
   useEffect(() => {
     if (!socket) return;
 
-    navigator.mediaDevices
+    if (initialCallAcccepted) {
+      socket.emit('initAcceptCall', { to: caller });
+    }
+    socket.on('initCallAccepted', () => {
+      setCanCAllNow(true);
+    });
+
+    if (canCalllNow) {
+      fireCall();
+    }
+
+    socket.on('callDisconnected', () => {
+      setCallEnded(true);
+      cleanupEndedCall();
+    });
+
+    socket.on('callDeclined', () => {
+      addToast('Call was declined', { appearance: 'error' });
+      history.push(PATHS.HOME);
+    });
+  }, [socket, initialCallAcccepted, canCalllNow, callEnded]);
+
+  const cleanupEndedCall = () => {
+    if (!callEnded) {
+      if (connectionRef.current) {
+        connectionRef.current.destroy();
+      }
+      addToast('User ended call', { appearance: 'success' });
+      dispatch(resetCallData());
+      setTimeout(() => {
+        history.push(PATHS.HOME);
+      }, 100);
+    }
+  };
+  useEffect(() => {
+    if (!socket) return;
+
+    if (!stream) {
+      navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })
       .then((stream) => {
         setStream(stream);
@@ -44,16 +104,40 @@ const Call = () => {
         });
         history.push(PATHS.HOME);
       });
+    }
+    
 
-    // callPeer(recepientId);
+    if (!callAccepted) {
+      socket.on('hey', (data) => {
+        setCallerSignal(data.signal);
+        setCanAcceptNow(true);
+      });
+    }
 
-    socket.on('hey', (data) => {
-      setReceivingCall(true);
-      setCaller(data.from);
-      setCallerSignal(data.signal);
-      console.log(data.signal, 'data.signal')
+    if (canAcceptNow && !hasFinallyAccepted) {
+      fireAcceptCall();
+      setHasFinallyAccepted(true);
+    }
+    return () => {stream && stopStream(stream)}
+  }, [socket, stream, callAccepted, canAcceptNow, hasFinallyAccepted]);
+
+  const stopStream = (stream) => {
+    return stream.getTracks().forEach(track => track.stop())
+  }
+  const fireCall = () => {
+    callPeer(recepientId);
+  };
+
+  const fireAcceptCall = () => {
+    acceptCall(callerSignal, caller);
+  };
+  const initCall = () => {
+    socket.emit('initCall', {
+      userToCall: recepientId,
+      signal: {},
+      from: userId,
     });
-  }, [socket]);
+  };
 
   const callPeer = (id) => {
     const peer = new Peer({
@@ -69,7 +153,6 @@ const Call = () => {
         from: userId,
       });
     });
-
     peer.on('stream', (stream) => {
       if (partnerVideo.current) {
         partnerVideo.current.srcObject = stream;
@@ -77,15 +160,14 @@ const Call = () => {
     });
 
     socket.on('callAccepted', (signal) => {
-      setCallAccepted(true);
-
+      dispatch(setAcceptCall());
       peer.signal(signal);
     });
     connectionRef.current = peer;
   };
 
-  const acceptCall = () => {
-    setCallAccepted(true);
+  const acceptCall = (callerSignal, callerId) => {
+    dispatch(setAcceptCall());
     const peer = new Peer({
       initiator: false,
       trickle: false,
@@ -93,7 +175,7 @@ const Call = () => {
     });
 
     peer.on('signal', (data) => {
-      socket.emit('acceptCall', { signal: data, to: caller });
+      socket.emit('acceptCall', { signal: data, to: callerId });
     });
 
     peer.on('stream', (stream) => {
@@ -106,40 +188,61 @@ const Call = () => {
 
   const leaveCall = () => {
     setCallEnded(true);
-    connectionRef.current.destroy();
+    if (connectionRef.current) {
+      connectionRef.current.destroy();
+    }
+
+    socket.emit('disconnectCall', { to: recepientId });
+    addToast('Call ended', { appearance: 'success' });
+    dispatch(resetCallData());
+    history.push(PATHS.HOME);
   };
 
   let UserVideo;
   if (stream) {
-    UserVideo = <video playsInline muted ref={userVideo} autoPlay />;
+    UserVideo = (
+      <video className="video" playsInline muted ref={userVideo} autoPlay />
+    );
   }
-  console.log(callAccepted, callEnded);
 
   let PartnerVideo;
   if (callAccepted) {
-    PartnerVideo = <video playsInline ref={partnerVideo} autoPlay />;
+    PartnerVideo = (
+      <video className="video" playsInline ref={partnerVideo} autoPlay />
+    );
   }
 
   return (
-    <div className="call-containaer">
-      {stream && UserVideo}
+    <div className="container call-containaer">
+      <div className="caller-container">{stream && UserVideo}</div>
 
-      {callAccepted && !callEnded ? <div>{PartnerVideo}</div> : null}
+      {callAccepted && !callEnded ? (
+        <div className="receiver-container">{PartnerVideo}</div>
+      ) : null}
 
-      <div className="callpeer">
-        <button onClick={() => callPeer('60841c601052b0401617be6d')}>
-          Call
-        </button>
-      </div>
+      {stream && (
+        <div className="call-actions">
+          <div className="action callpeer">
+            <Link onClick={() => initCall()}>
+              <Image src={SVG.MUTE} alt="mute" />
+            </Link>
+          </div>
+          {(hasFinallyAccepted || callAccepted) && (
+            <div className="action">
+              <Link onClick={leaveCall}>
+                <Image src={SVG.CALL} alt="mute" />
+              </Link>
+            </div>
+          )}
+        </div>
+      )}
 
-      {receivingCall && !callAccepted && (
+      {/* {receivingCall && !callAccepted && (
         <div className="incoming-call">
           <h1>{caller} is Calling you</h1>
           <button onClick={acceptCall}>Accept</button>
         </div>
-      )}
-
-      <button onClick={leaveCall}>End call</button>
+      )} */}
     </div>
   );
 };

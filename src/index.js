@@ -51,7 +51,7 @@ ReactDOM.render(
           // placement="bottom-center"
         >
           <ConnectivityListener />
-          <AcceptCall />
+          {/* <AcceptCall /> */}
           <Navigation />
           <Switch>
             <App />
