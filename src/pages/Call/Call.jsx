@@ -89,7 +89,8 @@ const Call = () => {
   useEffect(() => {
     if (!socket) return;
 
-    navigator.mediaDevices
+    if (!stream) {
+      navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })
       .then((stream) => {
         setStream(stream);
@@ -103,6 +104,8 @@ const Call = () => {
         });
         history.push(PATHS.HOME);
       });
+    }
+    
 
     if (!callAccepted) {
       socket.on('hey', (data) => {
@@ -115,8 +118,12 @@ const Call = () => {
       fireAcceptCall();
       setHasFinallyAccepted(true);
     }
-  }, [socket, callAccepted, canAcceptNow, hasFinallyAccepted]);
+    return () => {stream && stopStream(stream)}
+  }, [socket, stream, callAccepted, canAcceptNow, hasFinallyAccepted]);
 
+  const stopStream = (stream) => {
+    return stream.getTracks().forEach(track => track.stop())
+  }
   const fireCall = () => {
     callPeer(recepientId);
   };
@@ -213,20 +220,22 @@ const Call = () => {
         <div className="receiver-container">{PartnerVideo}</div>
       ) : null}
 
-      <div className="call-actions">
-        <div className="action callpeer">
-          <Link onClick={() => initCall()}>
-            <img src={MuteIcon} alt="mute" />
-          </Link>
-        </div>
-        {(hasFinallyAccepted || callAccepted) && (
-          <div className="action">
-            <Link onClick={leaveCall}>
-              <img src={CallIcon} alt="mute" />
+      {stream && (
+        <div className="call-actions">
+          <div className="action callpeer">
+            <Link onClick={() => initCall()}>
+              <img src={MuteIcon} alt="mute" />
             </Link>
           </div>
-        )}
-      </div>
+          {(hasFinallyAccepted || callAccepted) && (
+            <div className="action">
+              <Link onClick={leaveCall}>
+                <img src={CallIcon} alt="mute" />
+              </Link>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* {receivingCall && !callAccepted && (
         <div className="incoming-call">
