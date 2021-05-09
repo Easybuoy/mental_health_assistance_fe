@@ -5,6 +5,8 @@ import { useParams } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
 
 import { tl8 } from '../../utils/locale';
+// import Image from '../../modules/Common/Image/Image';
+// import SVG from '../../config/constants/svg';
 import { getUserId } from '../../store/selectors/auth';
 import { useSocket } from '../../context/SocketProvider';
 import Loader from '../../modules/Common/Loader/Loader';

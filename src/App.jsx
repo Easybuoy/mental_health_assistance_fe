@@ -9,7 +9,7 @@ import PATHS from './config/constants/paths'
 import PrivateRoute from './modules/PrivateRoute/PrivateRoute';
 import Chat from './pages/Chat/Chat';
 import Call from './pages/Call/Call';
-import './modules/Common/AcceptCall/AcceptCall'
+import Peers from './pages/Peers/Peers';
 import { getUserId } from './store/selectors/auth';
 import { SocketProvider } from './context/SocketProvider';
 import AcceptCall from './modules/Common/AcceptCall/AcceptCall';
@@ -23,6 +23,7 @@ function App() {
       <Route exact path={PATHS.LOGIN} component={Login} />
       <Route exact path={PATHS.REGISTER} component={Register} />
       <PrivateRoute exact path={PATHS.HOME} component={Home} />
+      <PrivateRoute exact path={PATHS.PEERS} component={Peers} />
       {/* <PrivateRoute exact path={PATHS.CHATS} component={Chat} /> */}
       <PrivateRoute exact path={PATHS.CHAT} component={Chat} />
       <PrivateRoute exact path={PATHS.CALL} component={Call} />

@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory, useLocation, Link } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
 
+import SVG from '../../config/constants/svg';
+import Image from '../../modules/Common/Image/Image'
 import { useSocket } from '../../context/SocketProvider';
 import { getUserId } from '../../store/selectors/auth';
 import {
@@ -13,8 +15,6 @@ import {
 } from '../../store/selectors/call';
 import { setAcceptCall, resetCallData } from '../../actions/call';
 import PATHS from '../../config/constants/paths';
-import CallIcon from '../../assets/svg/end-call.svg';
-import MuteIcon from '../../assets/svg/mute.svg';
 
 import './Call.scss';
 
@@ -224,13 +224,13 @@ const Call = () => {
         <div className="call-actions">
           <div className="action callpeer">
             <Link onClick={() => initCall()}>
-              <img src={MuteIcon} alt="mute" />
+              <Image src={SVG.MUTE} alt="mute" />
             </Link>
           </div>
           {(hasFinallyAccepted || callAccepted) && (
             <div className="action">
               <Link onClick={leaveCall}>
-                <img src={CallIcon} alt="mute" />
+                <Image src={SVG.CALL} alt="mute" />
               </Link>
             </div>
           )}

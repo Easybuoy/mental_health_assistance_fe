@@ -22,5 +22,9 @@
         "decline": "Decline"
       }
       
+    },
+    "image_alt": {
+      "call": "Call",
+      "chat": "Chat"
     }
 }
