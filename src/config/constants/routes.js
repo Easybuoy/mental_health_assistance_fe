@@ -17,7 +17,7 @@ const commonRoutes = [
   <Route exact path={PATHS.REGISTER} component={Register} />,
   <Route exact path={PATHS.TERMS} component={TermsPage} />,
   <PrivateRoute exact path={PATHS.HOME} component={Peers} />,
-  <Route component={NotFoundPage} />,
+  <Route path="*" component={NotFoundPage} />,
 ];
 
 export const unAuthenticatedRoutes = [
