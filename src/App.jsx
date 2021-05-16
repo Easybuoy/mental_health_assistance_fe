@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Switch } from 'react-router-dom';
 import USERTYPES from './config/constants/usertype';
@@ -17,18 +18,29 @@ import './App.scss';
 import React from 'react';
 
 function App() {
+  const [routes, setRoutes] = useState(unAuthenticatedRoutes);
   const userId = useSelector(getUserId);
   const userType = useSelector(getUserType);
   const isAuthenticated = useSelector(getIsAuthenticated);
-  let routes = unAuthenticatedRoutes;
 
-  if (isAuthenticated) {
-    if (userType === USERTYPES.PEER) {
-      routes = userRoutes;
-    } else {
-      routes = therapistRoutes;
+  useEffect(() => {
+    if (isAuthenticated) {
+      if (userType === USERTYPES.PEER) {
+        setRoutes(userRoutes);
+      } else {
+        setRoutes(therapistRoutes);
+      }
     }
-  }
+  }, [isAuthenticated]);
+  // let routes = unAuthenticatedRoutes;
+  // if (isAuthenticated) {
+  //   if (userType === USERTYPES.PEER) {
+  //     routes = userRoutes;
+  //   } else {
+  //     routes = therapistRoutes;
+  //   }
+  // }
+  console.log(isAuthenticated, userType, routes)
 
   return (
     <SocketProvider id={userId}>
