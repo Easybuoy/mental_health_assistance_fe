@@ -8,6 +8,8 @@ const PATHS = {
     CALL: '/call/:recepientId',
     PEERS: '/peers',
     THERAPISTS: '/therapists',
+    MY_THERAPISTS: '/my-therapists',
+    PATIENTS: '/patients',
   };
   export default PATHS;
   

@@ -1,7 +1,7 @@
 const USERTYPES = {
   PEER: 'Peer',
   VOLUNTEER: 'Volunteer Therapists',
-  THERAPISTS: 'Therapists',
+  THERAPISTS: 'Therapist',
 };
 
 export default USERTYPES;

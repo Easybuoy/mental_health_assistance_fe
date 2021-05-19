@@ -1,13 +1,13 @@
-@import '../../assets/styles/variables.scss';
+@import '../../../assets/styles/variables.scss';
 
-.therapist-page {
+.peer-page {
   width: 95%;
   padding: $spacing-8;
   @media screen and (min-width: $screen-xl-min) {
     width: 100%;
     padding: 0;
   }
-  .therapist-container {
+  .peer-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -30,9 +30,9 @@
         border-bottom-left-radius: $border-radius;
       }
 
-    //   .therapist-badge {
-    //     background-color: $black;
-    //   }
+      .black-background {
+        background-color: $black;
+      }
 
       .image {
         width: 100%;

@@ -1,6 +1,12 @@
 {
   "navigation": {
-
+    "peer": "Peers",
+    "therapists": "Therapists",
+    "my_therapists": "My Therapists",
+    "logout": "Logout",
+    "login": "Login",
+    "register": "Register",
+    "patients": "Patients"
   },
     "auth": {
       "email": "Email",

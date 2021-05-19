@@ -3,14 +3,14 @@ import { Link, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useToasts } from 'react-toast-notifications';
 
-import { getTherapists } from '../../actions/therapists';
-import Loader from '../../modules/Common/Loader/Loader';
-import PATHS from '../../config/constants/paths';
-import SVG from '../../config/constants/svg';
-import Image from '../../modules/Common/Image/Image';
-import Card from '../../modules/Common/Card/Card';
-import { tl8, tl8Html } from '../../utils/locale';
-import { getTherapists as getTherapistsState } from '../../store/selectors/therapist';
+import { getTherapists } from '../../../actions/therapists';
+import Loader from '../../../modules/Common/Loader/Loader';
+import PATHS from '../../../config/constants/paths';
+import SVG from '../../../config/constants/svg';
+import Image from '../../../modules/Common/Image/Image';
+import Card from '../../../modules/Common/Card/Card';
+import { tl8, tl8Html } from '../../../utils/locale';
+import { getTherapists as getTherapistsState } from '../../../store/selectors/therapist';
 import './Therapists.scss';
 
 const Therapists = () => {
