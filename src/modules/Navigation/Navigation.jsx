@@ -48,17 +48,6 @@ const Navigation = () => {
                   </div>
                 ))}
               </>
-              //   <div className="links">
-              //   <Link to={PATHS.PEERS}>{tl8('navigation.peer')}</Link>
-              // </div>
-              // <div className="links">
-              //   <Link to={PATHS.THERAPISTS}>{tl8('navigation.therapists')}</Link>
-              // </div>
-              // <div className="links">
-              //   <Link to={PATHS.MY_THERAPISTS}>
-              //     {tl8('navigation.my_therapists')}
-              //   </Link>
-              // </div>
             )}
             <div className="links">
               <Link to="/" onClick={onSignOutClick}>

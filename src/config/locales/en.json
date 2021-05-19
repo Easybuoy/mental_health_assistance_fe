@@ -38,7 +38,11 @@
     },
     "therapist": {
       "page_title": "Therapists",
-      "page_description": "This is a page where you can get to meet with fellow peers or volunteer therapists where you can share and talk about each other experiences. <span class=\"%{className}\">DISCLAIMER: This is not regulated and you are responsible for anything you share and we would not be liable if information shared is misused by the other peer or volumteer therapist!</span>"
+      "page_description": "This is a page where you can engage professional and verified therapists. They would help you in your journey to becoming a better version of yourself 🙂!</span>"
+    },
+    "my_therapist": {
+      "page_title": "My Therapists",
+      "page_description": "This is a page where you would see therapists that you have engaged.</span>"
     },
     "image_alt": {
       "call": "Call",
