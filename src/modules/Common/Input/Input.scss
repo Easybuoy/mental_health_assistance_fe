@@ -1,0 +1,60 @@
+@import '../../../assets/styles/variables.scss';
+
+.input-wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+
+  .input {
+    width: 100%;
+    padding: $spacing-8;
+    border-radius: $border-radius;
+    margin: $spacing-4 0;
+    font-size: $font-size-small;
+    background-color: #fff;
+    border: 2px solid #8b8a8b;
+    transition: 180ms box-shadow ease-in-out;
+    font-family: $primary-font;
+    box-sizing: border-box;
+    &:focus {
+      border-color: $brand-primary;
+      // box-shadow: 0 0 0 3px rgba(170, 50, 48, 0.2);
+      outline: 1px solid transparent;
+    }
+  }
+
+  span {
+    display: block;
+    font-size: $font-size-xsmall;
+    color: $white;
+    margin-left: $spacing-4;
+    font-family: $secondary-font;
+
+    a {
+      margin-left: $spacing-4;
+      color: $gray;
+
+      &:hover {
+        color: $white;
+      }
+    }
+  }
+}
+
+.input[type='checkbox'] {
+  border-radius: 0.25px;
+  border: 0.1px solid $brand-primary;
+  width: 16px;
+  width: 20px;
+  height: 20px;
+  -moz-appearance: none;
+  transition: all 0.2s ease-in-out;
+  filter: hue-rotate(30deg);
+  cursor: pointer;
+
+  &:focus {
+    border-color: transparent;
+    box-shadow: none;
+    outline: 1px solid transparent;
+  }
+}

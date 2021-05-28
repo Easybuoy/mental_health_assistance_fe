@@ -1,0 +1,47 @@
+@import '../../assets/styles/variables.scss';
+
+.footer {
+  background-color: black;
+  width: 100%;
+  margin-top: $spacing-48;
+  background: linear-gradient(140deg, #4a4a4a 0%, #3d3935 100%);
+
+  .footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    flex-direction: column;
+    padding: $spacing-24 0;
+
+    p {
+      color: $gray;
+      font-family: $secondary-font;
+    }
+
+    .socials {
+      display: flex;
+      flex-wrap: wrap;
+      margin: $spacing-16 0;
+
+      .social {
+        background-color: $white;
+        padding: $spacing-4;
+        border-radius: $border-radius;
+        box-shadow: $box-shadow;
+        margin: $spacing-8;
+        transition: all 0.3s ease-in-out;
+
+        a {
+          .image {
+            width: 25px;
+            height: 25px;
+          }
+        }
+
+        &:hover {
+          transform: scale(1.2);
+        }
+      }
+    }
+  }
+}

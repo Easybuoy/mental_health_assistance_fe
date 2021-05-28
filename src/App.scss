@@ -1,5 +1,48 @@
-$brand-primary: #c54644;
+@import './assets/styles/variables.scss';
+@import './assets/styles/general.scss';
 
-// Gray scale
-$black: #3d3935;
-$white: #fff;
+body {
+  font-family: $primary-font;
+  // background: #e1dede;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.loader {
+  height: 800px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.page-title {
+  color: $brand-primary;
+  font-size: $font-size-medium;
+  margin: $spacing-16 0;
+}
+
+.page-description {
+  text-align: center;
+  line-height: 1.4;
+  font-size: $font-size-normal;
+  margin-bottom: $spacing-16;
+}
+
+.danger-text {
+  color: $danger;
+  font-weight: 800;
+  font-family: $secondary-font;
+}

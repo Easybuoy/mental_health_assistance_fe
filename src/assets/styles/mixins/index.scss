@@ -1,0 +1,21 @@
+@import '../variables.scss';
+
+@mixin button($textColor, $backgroundColor, $font-size: $font-size-small) {
+  color: $textColor;
+  background-color: $backgroundColor;
+  padding: $spacing-8;
+  border-radius: $border-radius;
+  border: 1px solid $backgroundColor;
+  font-size: $font-size;
+  text-align: center;
+  font-family: $secondary-font;
+  cursor: pointer;
+  margin: $spacing-4 0;
+  transition: all 0.2s ease-in-out;
+
+  &:hover:enabled {
+    color: $backgroundColor;
+    background-color: $textColor;
+    box-shadow: $box-shadow;
+  }
+}

@@ -1,0 +1,9 @@
+@import '../../../assets/styles/variables.scss';
+@import '../../../assets/styles/mixins/index.scss';
+.btn {
+  @include button($white, $brand-primary);
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+}

@@ -1,0 +1,59 @@
+@import '../../assets/styles/variables.scss';
+
+.call-containaer {
+  position: relative;
+  .caller-container {
+    width: 100%;
+
+    .video {
+      width: 100%;
+    }
+  }
+
+  .receiver-container {
+    position: relative;
+    width: 100%;
+
+    @media screen and (min-width: $screen-sm-mid-min) {
+      height: 200px;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: auto;
+    }
+
+    .video {
+      width: 100%;
+      @media screen and (min-width: $screen-sm-mid-min) {
+        height: 100%;
+        width: auto;
+      }
+    }
+  }
+  .call-actions {
+    position: absolute;
+    bottom: $spacing-16;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    .action {
+      background-color: $white;
+      border-radius: 50%;
+      margin: $spacing-8;
+      box-shadow: $box-shadow;
+
+      a {
+        img {
+          width: 22px;
+          height: 20px;
+          padding: $spacing-8;
+        }
+
+        &:hover {
+        //   background-color: $brand-primary;
+        }
+      }
+    }
+  }
+}

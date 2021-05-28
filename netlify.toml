@@ -1,0 +1,15 @@
+[[redirects]]
+  from = "/api/*"
+  to = "https://mental-health-assistance.herokuapp.com"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/api/*"
+    [headers.values]
+    Access-Control-Allow-Origin = "*"
