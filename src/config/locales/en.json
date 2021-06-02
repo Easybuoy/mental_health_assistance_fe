@@ -44,6 +44,9 @@
       "page_title": "My Therapists",
       "page_description": "This is a page where you would see therapists that you have engaged.</span>"
     },
+    "terms": {
+      "page_title": "Terms and Conditions"
+    },
     "image_alt": {
       "call": "Call",
       "chat": "Chat",
@@ -55,7 +58,10 @@
       "not_found": "Not Found"
     },
     "footer": {
-      "app_name": "Mental Health Assistance"
+      "app_name": "Mental Health Assistance",
+      "links": {
+        "terms": "Terms and Conditions"
+      }
     },
     "not_found": {
       "title": "Page Not Found! Redirecting you to homepage!"
