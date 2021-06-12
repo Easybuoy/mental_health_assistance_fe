@@ -25,7 +25,7 @@ const Call = () => {
   const dispatch = useDispatch();
   const { recepientId } = params;
   const { state } = location;
-  console.log(state);
+
   const { addToast } = useToasts();
 
   const socket = useSocket();
@@ -145,7 +145,6 @@ const Call = () => {
   };
 
   const initCall = () => {
-    console.log('calling');
     if (!socket) {
       addToast('Call not allowed', { appearance: 'error' });
       history.push(PATHS.HOME);

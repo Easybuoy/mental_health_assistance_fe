@@ -5,6 +5,7 @@ import {
   getUserId,
   getUserType,
   getIsAuthenticated,
+  getActiveSubscription,
 } from './store/selectors/auth';
 import { SocketProvider } from './context/SocketProvider';
 import AcceptCall from './modules/Common/AcceptCall/AcceptCall';
@@ -15,11 +16,24 @@ import {
 } from './config/constants/routes';
 import './App.scss';
 import React from 'react';
+import PATHS from './config/constants/paths';
 
 function App() {
   const userId = useSelector(getUserId);
   const userType = useSelector(getUserType);
+  const hasActiveSubscription = useSelector(getActiveSubscription);
   const isAuthenticated = useSelector(getIsAuthenticated);
+
+  let updatedUserRoutes = [];
+  if (hasActiveSubscription) {
+    updatedUserRoutes = userRoutes.filter(
+      (route) => route.props.path !== PATHS.THERAPISTS
+    );
+  } else {
+    updatedUserRoutes = userRoutes.filter(
+      (route) => route.props.path !== PATHS.MY_THERAPISTS
+    );
+  }
 
   let routes = unAuthenticatedRoutes;
   if (isAuthenticated) {

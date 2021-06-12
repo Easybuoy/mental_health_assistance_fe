@@ -1,7 +1,8 @@
-import { SET_THERAPISTS } from '../../actions/types';
+import { SET_THERAPISTS, SET_MY_THERAPISTS } from '../../actions/types';
 
 const INITIAL_STATE = {
   therapists: [],
+  userTherapists: [],
 };
 
 const peerReducer = (state = INITIAL_STATE, action) => {
@@ -10,6 +11,11 @@ const peerReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         therapists: action.payload,
+      };
+    case SET_MY_THERAPISTS:
+      return {
+        ...state,
+        userTherapists: action.payload,
       };
     default:
       return state;
