@@ -9,6 +9,10 @@ import './Footer.scss';
 import PATHS from '../../config/constants/paths';
 
 const Footer = () => {
+  const scrollTop = () => {
+    window.scrollTo({ behavior: 'smooth', top: 0 });
+  };
+
   return (
     <div className="footer">
       <div className="container">
@@ -16,6 +20,12 @@ const Footer = () => {
           <p className="text-center ">
             &copy; {new Date().getFullYear()} {tl8('footer.app_name')}
           </p>
+
+          <div className="links">
+            <Link to={PATHS.TERMS} className="link" onClick={scrollTop}>
+              {tl8('footer.links.terms')}
+            </Link>
+          </div>
 
           <div className="socials">
             <div className="social">

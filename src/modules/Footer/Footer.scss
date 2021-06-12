@@ -18,6 +18,18 @@
       font-family: $secondary-font;
     }
 
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      margin: $spacing-16 0;
+
+      .link {
+        color: $brand-primary-light;
+        font-family: $secondary-font;
+        margin: $spacing-8;
+      }
+    }
+
     .socials {
       display: flex;
       flex-wrap: wrap;

@@ -1,1 +1,18 @@
 @import '../../assets/styles/variables.scss';
+
+.terms-page {
+  .heading {
+    font-size: $font-size-medium;
+    font-family: $primary-font;
+    color: $brand-primary-light;
+  }
+
+  .body {
+    color: $dark-gray;
+    font-size: $font-size-normal;
+    text-align: justify;
+    line-height: 1.5;
+    font-family: $secondary-font;
+    font-weight: $font-weight-bold;
+  }
+}
