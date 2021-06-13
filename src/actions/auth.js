@@ -4,7 +4,7 @@ import jwt_decode from 'jwt-decode';
 import setAuthToken from '../utils/setAuthToken';
 import configVariables from '../config/env';
 import APIROUTES from '../config/constants/api';
-import { LOGIN, SIGN_OUT, SET_CURRENT_USER } from './types';
+import { LOGIN, SIGN_OUT, SET_CURRENT_USER, SET_USER_SUBSCRIBED } from './types';
 // import { setError } from './error';
 
 const { API_BASE_URI } = configVariables;
@@ -22,6 +22,21 @@ export const loginUser = (email, password) => (dispatch) => {
       localStorage.setItem('token', data.token);
       const decodedToken = jwt_decode(data.token);
       dispatch(setCurrentUser(decodedToken));
+      return decodedToken;
+    })
+    .catch((error) => {
+      throw error.response.data.message || 'Unable to login, check your input!';
+    });
+};
+
+export const refreshUserToken = () => (dispatch) => {
+  return axios
+    .get(`${API_BASE_URI}${APIROUTES.REFRESH_TOKEN}`)
+    .then((res) => {
+      const { data } = res.data;
+      localStorage.setItem('token', data.token);
+      const decodedToken = jwt_decode(data.token);
+      dispatch(setIsUserSubscribed(decodedToken.hasActiveSubscription));
       return decodedToken;
     })
     .catch((error) => {
@@ -67,5 +82,12 @@ export const setCurrentUser = (decoded) => {
   return {
     type: SET_CURRENT_USER,
     payload: decoded,
+  };
+};
+
+export const setIsUserSubscribed = (payload) => {
+  return {
+    type: SET_USER_SUBSCRIBED,
+    payload,
   };
 };

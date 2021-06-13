@@ -4,6 +4,7 @@ import chatReducer from './chat';
 import callReducer from './call';
 import peerReducer from './peer';
 import therapistReducer from './therapist';
+import subscriptionReducer from './subscription';
 
 export default combineReducers({
   auth: authReducer,
@@ -11,4 +12,5 @@ export default combineReducers({
   call: callReducer,
   peer: peerReducer,
   therapist: therapistReducer,
+  subscription: subscriptionReducer,
 });

@@ -3,14 +3,17 @@ import { Link, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useToasts } from 'react-toast-notifications';
 
-import { getTherapists } from '../../../actions/therapists';
 import Loader from '../../../modules/Common/Loader/Loader';
 import PATHS from '../../../config/constants/paths';
 import SVG from '../../../config/constants/svg';
 import Image from '../../../modules/Common/Image/Image';
 import Card from '../../../modules/Common/Card/Card';
 import { tl8, tl8Html } from '../../../utils/locale';
-import { getTherapists as getTherapistsState } from '../../../store/selectors/therapist';
+import { getUserTherapists as getUserTherapistsState } from '../../../store/selectors/therapist';
+import { getUserTherapists } from '../../../actions/therapists';
+import {
+  getActiveSubscription,
+} from '../../../store/selectors/auth';
 import './MyTherapists.scss';
 
 const MyTherapists = () => {
@@ -18,13 +21,18 @@ const MyTherapists = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [isLoading, setIsLoading] = useState(false);
-  const peers = useSelector(getTherapistsState);
+  const therapists = useSelector(getUserTherapistsState);
+  const hasActiveSubscription = useSelector(getActiveSubscription);
 
   useEffect(() => {
+    if (!hasActiveSubscription) {
+      return history.push(PATHS.THERAPISTS);
+    }
+
     const getTherapistsAsync = async () => {
       setIsLoading(true);
       try {
-        await dispatch(getTherapists());
+        await dispatch(getUserTherapists());
       } catch (error) {
         addToast(error, { appearance: 'error' });
         history.push(PATHS.HOME);
@@ -32,41 +40,41 @@ const MyTherapists = () => {
       setIsLoading(false);
     };
     getTherapistsAsync();
-  }, [addToast, dispatch, history]);
+  }, [addToast, dispatch, history, hasActiveSubscription]);
 
   if (isLoading) return <Loader size={25} thickness={250} className="loader" />;
 
   return (
     <div className="container">
       <div className="mytherapist-page">
-        <h2 className="text-center page-title">{tl8('therapist.page_title')}</h2>
+        <h2 className="text-center page-title">
+          {tl8('my_therapist.page_title')}
+        </h2>
         <p className="page-description">
-          {tl8Html('therapist.page_description', { className: 'danger-text' })}
+          {tl8Html('my_therapist.page_description', { className: 'danger-text' })}
         </p>
         <div className="mytherapist-container">
-          {peers.map((peer) => (
-            <Card key={peer._id}>
+          {therapists.map((thrapist) => (
+            <Card key={thrapist._id}>
               <div className="image-container">
-                {peer.userTypeString && (
-                  <p
-                    className="badge therapist-badge"
-                  >
-                    {peer.userTypeString}
+                {thrapist.userTypeString && (
+                  <p className="badge therapist-badge">
+                    {thrapist.userTypeString}
                   </p>
                 )}
-                <Image src={peer.image} alt="placeholder image" />
+                <Image src={thrapist.image} alt="placeholder image" />
               </div>
               <div className="details">
-                <h3 className="text-center name">{peer.fullName}</h3>
+                <h3 className="text-center name">{thrapist.fullName}</h3>
 
                 <div className="actions">
-                  <Link to={`chat/${peer._id}`}>
+                  <Link to={`chat/${thrapist._id}`}>
                     <Image src={SVG.CHAT} alt={tl8('image_alt.chat')} />
                   </Link>
 
                   <Link
                     to={{
-                      pathname: `/call/${peer._id}`,
+                      pathname: `/call/${thrapist._id}`,
                       state: { makeCall: true },
                     }}
                   >

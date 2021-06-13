@@ -3,7 +3,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { tl8 } from '../../utils/locale';
 import { signOut } from '../../actions/auth';
-import { getIsAuthenticated, getUserType } from '../../store/selectors/auth';
+import {
+  getIsAuthenticated,
+  getUserType,
+} from '../../store/selectors/auth';
 import PATHS from '../../config/constants/paths';
 import USERTYPES from '../../config/constants/usertype';
 import {
@@ -11,7 +14,6 @@ import {
   therapistsRoutes,
   userRoutes,
 } from '../../config/constants/navRoutes';
-
 import './Navigation.scss';
 
 const Navigation = () => {

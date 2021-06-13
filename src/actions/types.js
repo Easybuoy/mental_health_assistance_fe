@@ -1,6 +1,7 @@
 export const LOGIN = 'LOGIN';
 export const SIGN_OUT = 'SIGN_OUT';
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
+export const SET_USER_SUBSCRIBED = 'SET_USER_SUBSCRIBED';
 export const SET_MESSAGES = 'SET_MESSAGES';
 export const SET_MESSAGE = 'SET_MESSAGE';
 export const SET_RECEPIENT_NAME = 'SET_RECEPIENT_NAME';
@@ -13,3 +14,6 @@ export const SET_CALL_RECEIVING = 'SET_CALL_RECEIVING';
 export const DECLINE_CALL = 'DECLINE_CALL';
 export const SET_PEERS = 'SET_PEERS';
 export const SET_THERAPISTS = 'SET_THERAPISTS';
+export const SET_MY_THERAPISTS = 'SET_MY_THERAPISTS';
+export const SUBSCRIBE = 'SUBSCRIBE';
+export const SET_SUBSCRIPTIONS = 'SET_SUBSCRIPTIONS';

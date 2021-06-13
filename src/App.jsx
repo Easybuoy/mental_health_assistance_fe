@@ -34,9 +34,6 @@ function App() {
     <SocketProvider id={userId}>
       <AcceptCall />
       <Switch>
-        {/* {routes.map((route, i) => (
-          <React.Fragment key={i}>{route}</React.Fragment>
-        ))} */}
         {routes.map((route, i) => route)}
       </Switch>
     </SocketProvider>

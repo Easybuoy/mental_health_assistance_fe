@@ -8,8 +8,9 @@ export const unauthenticatedRoutes = [
 export const userRoutes = [
   { path: PATHS.PEERS, translation: 'navigation.peer' },
   { path: PATHS.THERAPISTS, translation: 'navigation.therapists' },
-  { path: PATHS.MY_THERAPISTS, translation: 'navigation.my_therapists' },
+  { path: PATHS.PROFILE, translation: 'navigation.profile' },
 ];
 export const therapistsRoutes = [
   { path: PATHS.PATIENTS, translation: 'navigation.patients' },
+  { path: PATHS.PROFILE, translation: 'navigation.profile' },
 ];

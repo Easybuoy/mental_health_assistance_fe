@@ -30,9 +30,9 @@
         border-bottom-left-radius: $border-radius;
       }
 
-    //   .therapist-badge {
-    //     background-color: $black;
-    //   }
+      .therapist-badge {
+        background-color: $brand-tertiary;
+      }
 
       .image {
         width: 100%;
@@ -56,20 +56,6 @@
         margin: $spacing-16;
         display: flex;
         justify-content: center;
-
-        a {
-          transition: all 0.3s ease-in-out;
-          margin: $spacing-8;
-
-          &:hover {
-            transform: scale(1.2);
-          }
-
-          .image {
-            width: 30px;
-            height: 30px;
-          }
-        }
       }
     }
   }
