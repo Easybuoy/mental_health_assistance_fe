@@ -6,25 +6,6 @@ import { SET_SUBSCRIPTIONS, SUBSCRIBE } from './types';
 import { refreshUserToken } from './auth';
 
 const { API_BASE_URI } = configVariables;
-// export const setTransaction = (email, password) => (dispatch) => {
-//   const payload = {
-//     email,
-//     password,
-//   };
-//   return axios
-//     .post(`${API_BASE_URI}${APIROUTES.LOGIN}`, payload)
-//     .then((res) => {
-//       const { data } = res.data;
-//       setAuthToken(data.token);
-//       localStorage.setItem('token', data.token);
-//       const decodedToken = jwt_decode(data.token);
-//       dispatch(setCurrentUser(decodedToken));
-//       return decodedToken;
-//     })
-//     .catch((error) => {
-//       throw error.response.data.message || 'Unable to login, check your input!';
-//     });
-// };
 
 export const subscribeTherapist = (userId, therapistUserId) => (dispatch) => {
   const payload = {

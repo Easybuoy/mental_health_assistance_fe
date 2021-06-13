@@ -48,10 +48,10 @@ const MyTherapists = () => {
     <div className="container">
       <div className="mytherapist-page">
         <h2 className="text-center page-title">
-          {tl8('therapist.page_title')}
+          {tl8('my_therapist.page_title')}
         </h2>
         <p className="page-description">
-          {tl8Html('therapist.page_description', { className: 'danger-text' })}
+          {tl8Html('my_therapist.page_description', { className: 'danger-text' })}
         </p>
         <div className="mytherapist-container">
           {therapists.map((thrapist) => (

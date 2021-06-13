@@ -8,6 +8,7 @@ import configVariables from '../../../config/env';
 import config from '../../../utils/paystackConfig';
 import { getTherapists } from '../../../actions/therapists';
 import { subscribeTherapist } from '../../../actions/subscriptions';
+import { createTransaction } from '../../../actions/payment';
 import Loader from '../../../modules/Common/Loader/Loader';
 import PATHS from '../../../config/constants/paths';
 import Image from '../../../modules/Common/Image/Image';
@@ -54,9 +55,15 @@ const Therapists = () => {
   }, [addToast, dispatch, history, hasActiveSubscription]);
 
   const success = async (data, therapistUserId) => {
+    const payload = {
+      amount,
+      trxref: data.trxref,
+      transaction: data.transaction,
+      status: data.status,
+    };
+    dispatch(createTransaction(payload))
     await dispatch(subscribeTherapist(userId, therapistUserId));
     addToast('Subscription successful', { appearance: 'success' });
-    history.push(PATHS.MY_THERAPISTS);
   };
 
   const triggerPayment = async (therapistUserId) => {

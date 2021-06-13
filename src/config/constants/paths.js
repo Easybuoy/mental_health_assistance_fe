@@ -10,6 +10,7 @@ const PATHS = {
     THERAPISTS: '/therapists',
     MY_THERAPISTS: '/my-therapists',
     PATIENTS: '/patients',
+    PROFILE: '/profile'
   };
   export default PATHS;
   

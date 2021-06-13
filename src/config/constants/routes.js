@@ -11,6 +11,7 @@ import Peers from '../../pages/User/Peers/Peers';
 import Therapists from '../../pages/User/Therapists/Therapists';
 import TherapistHome from '../../pages/Therapists/Home/Home';
 import MyTherapists from '../../pages/User/Therapists/MyTherapists';
+import Profile from '../../pages/Profile/Profile';
 import NotFoundPage from '../../pages/NotFound/NotFound';
 
 const commonRoutes = [
@@ -32,11 +33,13 @@ export const userRoutes = [
   <PrivateRoute exact path={PATHS.THERAPISTS} component={Therapists} />,
   <PrivateRoute exact path={PATHS.MY_THERAPISTS} component={MyTherapists} />,
   <PrivateRoute exact path={PATHS.HOME} component={Peers} />,
+  <PrivateRoute exact path={PATHS.PROFILE} component={Profile} />,
   ...commonRoutes,
 ];
 
 export const therapistRoutes = [
   <PrivateRoute exact path={PATHS.HOME} component={TherapistHome} />,
   <PrivateRoute exact path={PATHS.PATIENTS} component={TherapistHome} />,
+  <PrivateRoute exact path={PATHS.PROFILE} component={Profile} />,
   ...commonRoutes,
 ];

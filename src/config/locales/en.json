@@ -6,7 +6,8 @@
     "logout": "Logout",
     "login": "Login",
     "register": "Register",
-    "patients": "Patients"
+    "patients": "Patients",
+    "profile": "Profile"
   },
     "auth": {
       "email": "Email",
@@ -41,8 +42,12 @@
       "page_description": "This is a page where you can engage professional and verified therapists. They would help you in your journey to becoming a better version of yourself 🙂!</span>"
     },
     "my_therapist": {
-      "page_title": "My Therapists",
+      "page_title": "Your Therapist",
       "page_description": "This is a page where you would see therapists that you have engaged.</span>"
+    },
+    "profile": {
+      "page_title": "Profile",
+      "page_description": "This is a page where you can see your details.</span>"
     },
     "terms": {
       "page_title": "Terms and Conditions"

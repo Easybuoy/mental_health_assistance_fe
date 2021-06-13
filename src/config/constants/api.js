@@ -7,5 +7,6 @@ const APIROUTES = {
   MY_THERAPIST: '/api/user/getUserTherapists',
   SUBSCRIBE: '/api/subscription/createSubscription',
   USER_SUBSCRIPTIONS: '/api/subscription/getUserSubscriptions',
+  CREATE_PAYMENT: '/api/payment/createPayment',
 };
 export default APIROUTES;
