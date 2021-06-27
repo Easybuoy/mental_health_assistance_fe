@@ -1,6 +1,13 @@
 @import '../../assets/styles/variables.scss';
 
 .terms-page {
+  width: 95%;
+  padding: $spacing-8;
+  @media screen and (min-width: $screen-xl-min) {
+    width: 100%;
+    padding: 0;
+  }
+
   .heading {
     font-size: $font-size-medium;
     font-family: $primary-font;
